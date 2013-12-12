@@ -1,0 +1,12 @@
+const z = 0, a = 1, c = 1.0032, d = 'a';
+var head,n:integer;
+    num:array [10] of char;
+begin
+  n := z;
+  read(head);
+  while n <= head do
+    begin    
+      n := n+1;
+    end;
+  write(n)
+end.
