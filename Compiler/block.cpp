@@ -285,16 +285,6 @@ void typ(bool fsys[], types *tp, int *rf, int *sz){
 
 }
 
-
-void entervariable(int level){
-	if(sym == IDEN){
-		enter(token, VARIABLE, level);
-		getsym();
-	}
-	else
-		error(2);//È±ÉÙ±êÊ¶·û
-}
-
 void constant(bool fsys[], struct conrec *c){
 	int x,sign;
 	c->tp = NOTYP;

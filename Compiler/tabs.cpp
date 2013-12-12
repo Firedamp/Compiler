@@ -29,6 +29,11 @@ void enterreal(double r){
 	}
 }
 
+void enterarray(int sz){
+	a++;
+	atab[a].size = sz;
+}
+
 
 
 void enter(char token[], objecttyp k, int level){
@@ -54,5 +59,14 @@ void enter(char token[], objecttyp k, int level){
 		tab[t].normal = false;
 	}
 	btab[display[level]].last = t;
+}
+
+void entervariable(int level){
+	if(sym == IDEN){
+		enter(token, VARIABLE, level);
+		getsym();
+	}
+	else
+		error(2);//È±ÉÙ±êÊ¶·û
 }
 

@@ -165,6 +165,7 @@ void cpysys(bool *s1, bool *s2);
 
 void enterblock();
 void enterreal(double r);
+void enterarray(int sz);
 void enter(char token[], objecttyp k, int level);
 
 void parameterlist(int *dx, int level);
