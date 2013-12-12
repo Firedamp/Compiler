@@ -134,6 +134,7 @@ extern int inum;							//读到的整数
 extern double rnum;						//读到的实数
 extern char token[ALNG], ch;			//读到的单词与一个字符
 extern int t, a, b, sx, c1, c2;			//表格指针
+extern int uk;			//缺失标识符的过程与方法定义数
 
 extern char *key[];
 extern char *symstr[];
@@ -174,7 +175,7 @@ void getsym();
 void block(bool fsys[], bool isfun, int level);
 void constdec(bool fsys[], int level);
 void variabledec(bool fsys[], int level, int *dx);
-void proceduredec();
+void proceduredec(bool fsys[], int level);
 void constant(bool fsys[], struct conrec *c);
 void entervariable(int level);
 void typ(bool fsys[], types *tp, int *rf, int *sz);

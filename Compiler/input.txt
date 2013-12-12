@@ -1,6 +1,10 @@
 const z = 0, a = 1, c = 1.0032, d = 'a';
 var head,n:integer;
-    num:array [10] of char;
+    num, num2:array [10] of char;
+procedure proc();
+const z = 0, a = 1, c = 1.0032, d = 'a';
+var head,n:integer;
+    num, num2:array [10] of char;
 begin
   n := z;
   read(head);

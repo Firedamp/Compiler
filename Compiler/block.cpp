@@ -50,14 +50,14 @@ void block(bool fsys[], bool isfun, int level){    //nextfsys
 		variabledec(fsys, level, &dx);
 	btab[prb].vsize = dx;
 	while(sym == PROCETK || sym == FUNCTION)
-		proceduredec();
+		proceduredec(fsys, level);
 	//test();
 	//}while(sym in statbegsys);
 	tab[prt].adr = lc;
 	//getsym();
 	//while
 	if(sym == BEGINTK)
-		;//compoundstatement()
+		getsym();//compoundstatement()
 	else
 		error(14);//»±…Ÿbegin
 	//test();
@@ -166,6 +166,7 @@ void constdec(bool fsys[], int level){     //fsys
 		constant(nextfsys, &c);
 		tab[t].typ = c.tp;
 		tab[t].ref = 0;
+		tab[t].normal = true;
 		if(c.tp == REALS){
 			enterreal(c.r);
 			tab[t].adr = c1;
@@ -229,7 +230,33 @@ void variabledec(bool fsys[], int level, int *dx){
 	}
 }
 
-void proceduredec(){
+void proceduredec(bool fsys[], int level){
+	bool isfun;
+	bool nextfsys[NSY];
+
+	isfun = (sym == FUNCTK);
+	getsym();
+	if(sym != IDEN){
+		error();
+		strcpy(token, "_unknow ");
+		token[7] = uk + '0';
+	}
+	if(isfun)
+		enter(token, FUNCTION, level);
+	else
+		enter(token, PROCDURE, level);
+	tab[t].normal = true;
+	getsym();
+
+	cpysys(nextfsys, fsys);
+	nextfsys[SEMICH] = true;
+	block(nextfsys, isfun, level+1);
+
+	if(sym == SEMICH)
+		getsym();
+	else
+		error();
+	//emit();
 }
 
 void typ(bool fsys[], types *tp, int *rf, int *sz){

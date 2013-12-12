@@ -32,6 +32,8 @@ char token[ALNG], ch = ' ';			//读到的单词与一个字符
 
 int t, a, b, sx, c1, c2;			//表格指针
 
+int uk;				//缺失标识符的过程与方法定义数
+
 bool blockbegsys[NSY];
 bool statbegsys[NSY];
 
