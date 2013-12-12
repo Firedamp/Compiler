@@ -222,6 +222,10 @@ void variabledec(bool fsys[], int level, int *dx){
 			tab[t0].normal = true;
 			(*dx) += sz;
 		}
+		if(sym == SEMICH)
+			getsym();
+		else
+			error();
 	}
 }
 
@@ -235,9 +239,12 @@ void typ(bool fsys[], types *tp, int *rf, int *sz){
 	test();
 	if(sym == INTTK){
 		*tp = INTS;
+		getsym();
 	}
-	else if(sym == CHARTK)
+	else if(sym == CHARTK){
 		*tp = CHARS;
+		getsym();
+	}
 	else if(sym == ARRAYTK){
 		getsym();
 		*tp = ARRAYS;
@@ -270,15 +277,20 @@ void typ(bool fsys[], types *tp, int *rf, int *sz){
 			getsym();
 		else
 			error();
-		if(sym == INTTK)
+		if(sym == INTTK){
 			atab[*rf].eltyp = INTS;
-		else if(sym == CHARTK)
+			getsym();
+		}
+		else if(sym == CHARTK){
 			atab[*rf].eltyp = CHARS;
-		else if(sym == REALTK)
+			getsym();
+		}
+		else if(sym == REALTK){
 			atab[*rf].eltyp = REALS;
+			getsym();
+		}
 		else
 			error();
-		getsym();
 	}
 	else
 		error();

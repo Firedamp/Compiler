@@ -56,7 +56,7 @@ void enter(char token[], objecttyp k, int level){
 		tab[t].ref = 0;
 		tab[t].lev = level;
 		tab[t].adr = 0;
-		tab[t].normal = false;
+		tab[t].normal = true;
 	}
 	btab[display[level]].last = t;
 }
