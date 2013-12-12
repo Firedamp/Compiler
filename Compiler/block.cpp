@@ -213,8 +213,15 @@ void variabledec(bool fsys[], int level, int *dx){
 
 		typ(nextfsys, &tp, &rf, &sz);
 
-
-
+		while(t0 < t1){
+			t0++;
+			tab[t0].typ = tp;
+			tab[t0].ref = rf;
+			tab[t0].lev = level;
+			tab[t0].adr = *dx;
+			tab[t0].normal = true;
+			(*dx) += sz;
+		}
 	}
 }
 
@@ -271,6 +278,7 @@ void typ(bool fsys[], types *tp, int *rf, int *sz){
 			atab[*rf].eltyp = REALS;
 		else
 			error();
+		getsym();
 	}
 	else
 		error();
