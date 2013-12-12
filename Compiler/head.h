@@ -64,6 +64,7 @@ void multi_statement();*/
 #define		CMAX	800		//代码段长度
 #define		LMAX	7		//最大嵌套层数
 #define		SMAX	600		//字符串表长度
+#define		ASIZE	100		//数组元素最大个数
 #define		ERMAX	58
 #define		OMAX	63
 #define		XMAX	32767

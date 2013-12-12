@@ -213,6 +213,8 @@ void variabledec(bool fsys[], int level, int *dx){
 
 		typ(nextfsys, &tp, &rf, &sz);
 
+
+
 	}
 }
 
@@ -222,11 +224,56 @@ void proceduredec(){
 void typ(bool fsys[], types *tp, int *rf, int *sz){
 	*tp = NOTYP;
 	*rf = 0;
-	*sz = 0;
+	*sz = 1;
 	test();
 	if(sym == INTTK){
 		*tp = INTS;
 	}
+	else if(sym == CHARTK)
+		*tp = CHARS;
+	else if(sym == ARRAYTK){
+		getsym();
+		*tp = ARRAYS;
+		if(sym == LBRACK)
+			getsym();
+		else
+			error(11);//È±ÉÙ[
+		if(sym == INTCON){
+			if(inum > ASIZE){
+				error();
+				*sz = ASIZE;
+			}
+			else if(inum == 0){
+				error();
+				*sz = ASIZE;
+			}
+			else
+				*sz = inum;
+			enterarray(*sz);
+			*rf = a;
+			getsym();
+		}
+		else
+			error();
+		if(sym == RBRACK)
+			getsym();
+		else
+			error();
+		if(sym == OFTK)
+			getsym();
+		else
+			error();
+		if(sym == INTTK)
+			atab[*rf].eltyp = INTS;
+		else if(sym == CHARTK)
+			atab[*rf].eltyp = CHARS;
+		else if(sym == REALTK)
+			atab[*rf].eltyp = REALS;
+		else
+			error();
+	}
+	else
+		error();
 
 }
 
