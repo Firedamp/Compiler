@@ -70,3 +70,31 @@ void entervariable(int level){
 		error(2);//缺少标识符
 }
 
+void emit(int fct){
+	if(lc >= CMAX)
+		fatal(6);//汇编指令表满了
+	code[lc++].f = fct;
+}
+
+void emit(int fct, int b){
+	if(lc >= CMAX)
+		fatal(6);//汇编指令表满了
+	else{
+		code[lc].f = fct;
+		code[lc].y = b;
+		lc++;
+	}
+}
+
+void emit(int fct, int a, int b){
+	if(lc >= CMAX)
+		fatal(6);//汇编指令表满了
+	else{
+		code[lc].f = fct;
+		code[lc].x = a;
+		code[lc].y = b;
+		lc++;
+	}
+}
+
+

@@ -140,8 +140,6 @@ void parameterlist(int *dx, int level){ //形式参数表
 		error(4);
 }
 
-
-
 void constdec(bool fsys[], int level){     //fsys
 	struct conrec c;
 	bool nextfsys[NSY];
@@ -256,7 +254,7 @@ void proceduredec(bool fsys[], int level){
 		getsym();
 	else
 		error();
-	//emit();
+	emit(32+isfun);
 }
 
 void typ(bool fsys[], types *tp, int *rf, int *sz){

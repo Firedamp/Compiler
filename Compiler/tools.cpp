@@ -28,3 +28,4 @@ void cpysys(bool *s1, bool *s2){
 	for(int i = 0 ; i < NSY; i++)
 		s1[i] = s2[1];
 }
+

@@ -19,6 +19,7 @@
     <ClCompile Include="error.cpp" />
     <ClCompile Include="lex.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="statement.cpp" />
     <ClCompile Include="tabs.cpp" />
     <ClCompile Include="tools.cpp" />
   </ItemGroup>

@@ -125,11 +125,18 @@ struct conrec{
 	double r;
 };
 
+struct order{
+	int f;
+	int x;
+	int y;
+};
+
 
 
 extern symbol sym;
 extern int ll, cc;				//行数列数
 extern int lc;
+
 extern int inum;							//读到的整数
 extern double rnum;						//读到的实数
 extern char token[ALNG], ch;			//读到的单词与一个字符
@@ -147,6 +154,7 @@ extern double rconst[C2MAX];
 extern struct table tab[TMAX];
 extern struct btable btab[BMAX];
 extern struct atable atab[AMAX];
+extern struct order code[CMAX];
 
 extern bool blockbegsys[NSY];
 extern bool statbegsys[NSY];
@@ -168,6 +176,10 @@ void enterblock();
 void enterreal(double r);
 void enterarray(int sz);
 void enter(char token[], objecttyp k, int level);
+void entervariable(int level);
+void emit(int fct);
+void emit(int fct, int b);
+void emit(int fct, int a, int b);
 
 void parameterlist(int *dx, int level);
 void getsym();
@@ -177,7 +189,6 @@ void constdec(bool fsys[], int level);
 void variabledec(bool fsys[], int level, int *dx);
 void proceduredec(bool fsys[], int level);
 void constant(bool fsys[], struct conrec *c);
-void entervariable(int level);
 void typ(bool fsys[], types *tp, int *rf, int *sz);
 
 

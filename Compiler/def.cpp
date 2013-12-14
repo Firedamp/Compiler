@@ -24,7 +24,7 @@ char *key[NKW] = {
 
 symbol sym;
 int ll, cc;				//行数列数
-int lc;
+int lc;					//代码指针
 
 int inum;							//读到的整数
 double rnum;						//读到的实数
@@ -42,5 +42,6 @@ double rconst[C2MAX];
 struct table tab[TMAX];
 struct btable btab[BMAX];
 struct atable atab[AMAX];
+struct order code[CMAX];
 
 FILE *input, *output;
