@@ -47,17 +47,17 @@ int main(int argc, char *argv[]){
 	printf("No.\tf\tx\ty\n");
 	for(int i = 0; i < lc; i++){
 		if(code[i].f < 4)
-			printf("%d\t%d\t%d\t%d\n");
+			printf("%d\t%d\t%d\t%d\n", i, code[i].f, code[i].x, code[i].y);
 		else if(code[i].f > 30)
-			printf("%d\t%d\t\t\t\n");
+			printf("%d\t%d\t\t\t\n", i, code[i].f, code[i].y);
 		else
-			printf("%d\t%d\t\t%d\n");
+			printf("%d\t%d\t\t%d\n", i, code[i].f);
 	}
 
 
 	
 	if(sym == PERIOD)
-		printf("Program Completed");
+		printf("Program Completed\n");
 	else
 		error(6);//È±ÉÙ¾äºÅ
 	fclose(input);

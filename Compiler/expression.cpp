@@ -151,7 +151,7 @@ void factor(item *x, int level){
 			if(tab[i].obj == CONSTANT){
 				x->typ = tab[i].typ;
 				x->ref = 0;
-				if(x->typ = REALS)
+				if(x->typ == REALS)
 					emit(25, tab[i].adr);
 				else
 					emit(24, tab[i].adr);
@@ -202,6 +202,27 @@ void factor(item *x, int level){
 				x->typ = tab[i].typ;
 				callstatement(i);
 			}
+			else
+				error();
+		}
+		else if(sym == REALCON || sym == INTCON){//////我的文法中应该是没有char的这里
+			if(sym == REALCON){
+				x->typ = REALS;
+				enterreal(rnum);
+				emit(25, c1);
+			}
+			else{
+				x->typ = INTS;
+				emit(24, inum);
+			}
+			x->ref = 0;
+			getsym();
+		}
+		else if(sym == LPARENT){
+			getsym();
+			expression(x, level);
+			if(sym == RPARENT)
+				getsym();
 			else
 				error();
 		}

@@ -21,7 +21,7 @@ void initsys(){
 
 	facbegsys[INTCON] = true;
 	facbegsys[REALCON] = true;
-	facbegsys[CHARCON] = true;
+	//facbegsys[CHARCON] = true;//我的文法应该是没有这一条的
 	facbegsys[IDEN] = true;
 	facbegsys[LPARENT] = true;
 }
