@@ -51,7 +51,7 @@ void proc_declar();
 void funct_declar();
 void multi_statement();*/
 
-#define		NKW		23//27		//关键字个数
+#define		NKW		24//27		//关键字个数
 #define		NSY		49		//单词类型数
 #define		ALNG	10		//标识符最大长度
 #define		LLNG	121		
@@ -76,7 +76,7 @@ void multi_statement();*/
 enum symbol{
 	CONSTTK,	/*const*/			INTTK,		/*integer*/			CHARTK,		/*char*/		REALTK,
 	VARTK,		/*var*/				ARRAYTK,	/*array*/			OFTK,		/*of*/			
-	REPTTK,		/*repeat*/			UNLTK,		/*until*/			IFTK,		/*if*/			WHILETK,	
+	REPTTK,		/*repeat*/			UNLTK,		/*until*/			IFTK,		/*if*/			WHILETK,	CASETK,
 	THENTK,		/*then*/			ELSETK,		/*else*/			DOTK,		/*do*/	
 	FORTK,		/*for*/				TOTK,		/*to*/				DOWNTOTK,	/*downto*/		
 	PROCETK,	/*procdure*/		FUNCTK,		/*function*/		READTK,		/*read*/	
@@ -131,6 +131,11 @@ struct order{
 	int y;
 };
 
+struct item{
+	types typ;
+	int ref;
+};
+
 
 
 extern symbol sym;
@@ -149,7 +154,7 @@ extern char *objstr[];
 extern char *typstr[];
 extern char *boolstr[];
 
-extern int display[LMAX];
+extern int display[LMAX];	//都没有初始化
 extern double rconst[C2MAX];
 extern struct table tab[TMAX];
 extern struct btable btab[BMAX];
@@ -158,6 +163,7 @@ extern struct order code[CMAX];
 
 extern bool blockbegsys[NSY];
 extern bool statbegsys[NSY];
+extern bool statfolsys[NSY];
 
 extern FILE *input, *output;
 
@@ -180,6 +186,7 @@ void entervariable(int level);
 void emit(int fct);
 void emit(int fct, int b);
 void emit(int fct, int a, int b);
+int loc(char id[], int level);
 
 void parameterlist(int *dx, int level);
 void getsym();

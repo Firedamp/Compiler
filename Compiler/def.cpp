@@ -2,7 +2,7 @@
 
 char *symstr[] = {
 	"CONSTTK",	"INTTK",	"CHARTK",	"REALTK",	"VARTK",	"ARRAYTK",	"OFTK",
-	"REPTTK",	"UNLTK",	"IFTK",		"WHILETK",		"THENTK",	"ELSETK",	"DOTK",
+	"REPTTK",	"UNLTK",	"IFTK",		"WHILETK",	"CASETK",	"THENTK",	"ELSETK",	"DOTK",
 	"FORTK",	"TOTK",		"DOWNTOTK",	"PROCETK",	"FUNCTK",	"READTK",	
 	"WRITETK",	"BEGINTK",	"ENDTK",	"PLUS",		"MINU",		"MULT",
 	"DIV",		"LSS",		"LEQ",		"GRE",		"GEQ",		"EQL",
@@ -17,7 +17,7 @@ char *boolstr[] = {"false", "true"};
 
 char *key[NKW] = {
 	"const",		"integer",		"char",			"real",			"var",			"array",		"of",
-	"repeat",		"until",		"if",			"while",		"then",			"else",			"do",
+	"repeat",		"until",		"if",			"while",		"case",			"then",			"else",			"do",
 	"for",			"to",			"downto",		"procedure",	"function",		"read",
 	"write",		"begin",		"end"
 };
@@ -36,6 +36,7 @@ int uk;				//缺失标识符的过程与方法定义数
 
 bool blockbegsys[NSY];
 bool statbegsys[NSY];
+bool statfolsys[NSY];//暂时还没有初始化
 
 int display[LMAX];
 double rconst[C2MAX];

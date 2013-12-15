@@ -97,4 +97,19 @@ void emit(int fct, int a, int b){
 	}
 }
 
+int loc(char id[], int level){
+	int i, j;
+	i = level;
+	strcpy(tab[0].name, id);
+	do{
+		j = btab[display[i]].last;
+		while(strcmp(tab[j].name, id) != 0)
+			j = tab[j].link;
+		i--;
+	}while(i >= 0 && j == 0);
+	if(j == 0)
+		error(0);//未定义的标识符
+	return j;
+}
+
 

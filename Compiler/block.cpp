@@ -57,7 +57,7 @@ void block(bool fsys[], bool isfun, int level){    //nextfsys
 	//getsym();
 	//while
 	if(sym == BEGINTK)
-		getsym();//compoundstatement()
+		compoundstatement(level);
 	else
 		error(14);//»±…Ÿbegin
 	//test();
