@@ -163,6 +163,7 @@ extern struct order code[CMAX];
 
 extern bool blockbegsys[NSY];
 extern bool statbegsys[NSY];
+extern bool facbegsys[NSY];
 extern bool statfolsys[NSY];
 
 extern FILE *input, *output;
@@ -197,6 +198,23 @@ void variabledec(bool fsys[], int level, int *dx);
 void proceduredec(bool fsys[], int level);
 void constant(bool fsys[], struct conrec *c);
 void typ(bool fsys[], types *tp, int *rf, int *sz);
+
+void condition(item *x, int level);
+void expression(item *x, int level);
+void term(item *x, int level);
+void factor(item *x, int level);
+types resulttype(types a, types b);
+
+void statement(int level);
+void assignstatement(int i, int lv, int ad, int level);
+void compoundstatement(int level);
+void ifstatement();
+void casestatement();
+void forstatement();
+void callstatement(int i);
+void writestatement();
+void readstatement();
+
 
 
 

@@ -7,10 +7,10 @@ void statement(int level){
 		if(i != 0){
 			getsym();
 			if(tab[i].obj == VARIABLE)//普通赋值语句
-				assignstatement(i, tab[i].lev, tab[i].adr);
+				assignstatement(i, tab[i].lev, tab[i].adr, level);
 			else if(tab[i].obj == FUNCTION)//函数名赋值，返回值
 				if(tab[i].ref == display[level])
-					assignstatement(i, tab[i].lev+1, 0);
+					assignstatement(i, tab[i].lev+1, 0, level);
 				else
 					error(45);//不在所要赋值的函数名对应的函数中
 			else if(tab[i].obj == PROCDURE)//过程调用语句
@@ -37,7 +37,7 @@ void statement(int level){
 		error();
 }
 
-void assignstatement(int i, int lv, int ad){
+void assignstatement(int i, int lv, int ad, int level){
 	item x, y, z;
 	int f, a;
 	x.typ = tab[i].typ;
@@ -48,8 +48,8 @@ void assignstatement(int i, int lv, int ad){
 		f = 1;
 	emit(f, lv, ad);
 	if(sym == LBRACK){
-		getsym();
-		expresssion(&z);
+		getsym();								//selector
+		expression(&z, level);
 		if(x.typ != ARRAYS)
 			error(28);//变量不是数组
 		else{
@@ -70,7 +70,7 @@ void assignstatement(int i, int lv, int ad){
 		getsym();
 	else
 		error();
-	expression(&y);
+	expression(&y, level);
 	if(x.typ == y.typ)
 		if(x.typ == INTS || x.typ == REALS || x.typ == CHARS)////////////////int,char
 			emit(38);

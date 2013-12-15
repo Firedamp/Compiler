@@ -4,6 +4,7 @@ void initsys(){
 	for(int i = 0; i < NSY; i++){
 		statbegsys[i] = false;
 		blockbegsys[i] = false;
+		facbegsys[i] = false;
 	}
 
 	statbegsys[BEGINTK] = true;
@@ -17,6 +18,12 @@ void initsys(){
 	blockbegsys[PROCETK] = true;
 	blockbegsys[FUNCTK] = true;
 	blockbegsys[BEGINTK] = true;
+
+	facbegsys[INTCON] = true;
+	facbegsys[REALCON] = true;
+	facbegsys[CHARCON] = true;
+	facbegsys[IDEN] = true;
+	facbegsys[LPARENT] = true;
 }
 
 void unisys(bool *s, bool *s1, bool *s2){

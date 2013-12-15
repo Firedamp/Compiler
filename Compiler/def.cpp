@@ -36,6 +36,7 @@ int uk;				//缺失标识符的过程与方法定义数
 
 bool blockbegsys[NSY];
 bool statbegsys[NSY];
+bool facbegsys[NSY];
 bool statfolsys[NSY];//暂时还没有初始化
 
 int display[LMAX];
