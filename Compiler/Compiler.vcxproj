@@ -17,6 +17,7 @@
     <ClCompile Include="block.cpp" />
     <ClCompile Include="def.cpp" />
     <ClCompile Include="error.cpp" />
+    <ClCompile Include="expression.cpp" />
     <ClCompile Include="lex.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="statement.cpp" />

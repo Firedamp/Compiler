@@ -72,7 +72,7 @@ void assignstatement(int i, int lv, int ad){
 		error();
 	expression(&y);
 	if(x.typ == y.typ)
-		if(x.typ == INTS || x.typ == REALS || x.typ == CHARS)
+		if(x.typ == INTS || x.typ == REALS || x.typ == CHARS)////////////////int,char
 			emit(38);
 		else //if(x.ref != y.ref)
 			error(46);//无法识别的类型,类型不匹配
@@ -105,7 +105,6 @@ void compoundstatement(int level){
 void ifstatement(){
 	item x;
 	int lc1, lc2;
-
 }
 
 void casestatement(){
