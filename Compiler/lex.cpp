@@ -104,8 +104,11 @@ void getsym(){
 	else if(ch == '"'){
 		token[0] = '"';
 		do{
-			if(i < ALNG)
+			if(i < ALNG){
+				if(i)
+					stab[sx++] = ch;
 				token[i++] = ch;
+			}
 			else if(i == ALNG && !flag){
 				printf("line:%d, column:%d : String Too Long\n", ll, cc-i);
 				flag++;
@@ -114,6 +117,8 @@ void getsym(){
 		}while(ch != '"' && ch != EOF);
 		if(ch != EOF)
 			getch();
+		inum = sx-i+1;
+		sleng = i-1;
 		token[i++] = '"';
 		token[i] = '\0';
 		sym = STRCON;

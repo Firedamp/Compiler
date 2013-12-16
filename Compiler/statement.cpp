@@ -387,6 +387,7 @@ void writestatement(int level){
 			emit(28, inum);
 			getsym();
 			if(sym == COMMA){
+				getsym();
 				expression(&x, level);
 				if(x.typ != INTS && x.typ != CHARS && x.typ != REALS)
 					error(41);//不能输出的类型

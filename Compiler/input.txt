@@ -1,6 +1,5 @@
-var day, month, year, zday, m, y1, y2 : integer;
-	s:real;
+var s:real;
 begin
     read(s);
-    write(s)
+    write("hello", s)
 end.

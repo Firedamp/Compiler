@@ -12,6 +12,7 @@ int main(int argc, char *argv[]){
 	b = -1;
 	a = -1;
 	uk = 1;
+	sx = 0;
 
 	tab[1].obj = PROCDURE;
 	tab[1].typ = NOTYP;
