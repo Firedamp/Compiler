@@ -52,7 +52,7 @@ void funct_declar();
 void multi_statement();*/
 
 #define		NKW		24//27		//关键字个数
-#define		NSY		49		//单词类型数
+#define		NSY		51		//单词类型数
 #define		ALNG	10		//标识符最大长度
 #define		LLNG	121		
 #define		KMAX	15		//数字最大位数
@@ -66,7 +66,7 @@ void multi_statement();*/
 #define		SMAX	600		//字符串表长度
 #define		ASIZE	100		//数组元素最大个数
 #define		ERMAX	58
-#define		OMAX	63
+#define		OMAX	64		//指令集条数
 #define		XMAX	32767
 #define		NMAX	32767
 #define		LINELENG	132
@@ -153,6 +153,7 @@ extern char *symstr[];
 extern char *objstr[];
 extern char *typstr[];
 extern char *boolstr[];
+extern char *instr[];
 
 extern int display[LMAX];	//都没有初始化
 extern double rconst[C2MAX];
@@ -208,12 +209,12 @@ types resulttype(types a, types b);
 void statement(int level);
 void assignstatement(int i, int lv, int ad, int level);
 void compoundstatement(int level);
-void ifstatement();
-void casestatement();
-void forstatement();
+void ifstatement(int level);
+void casestatement(int level);
+void forstatement(int level);
 void callstatement(int i);
-void writestatement();
-void readstatement();
+void writestatement(int level);
+void readstatement(int level);
 
 
 

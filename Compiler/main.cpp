@@ -43,15 +43,15 @@ int main(int argc, char *argv[]){
 	for(int i = 1; i <= t; i++)
 		printf("%d\t%s\t%d\t%s\t%s\t%d\t%d\t%s\t%d\n", i, tab[i].name, tab[i].link, objstr[tab[i].obj], typstr[tab[i].typ], tab[i].ref, tab[i].lev, boolstr[tab[i].normal], tab[i].adr);
 	
-	printf("\n\n========== code ==========\n");
-	printf("No.\tf\tx\ty\n");
+	printf("\n\n============== code ==============\n");
+	printf("No.\tname\tf\tx\ty\n");
 	for(int i = 0; i < lc; i++){
 		if(code[i].f < 4)
-			printf("%d\t%d\t%d\t%d\n", i, code[i].f, code[i].x, code[i].y);
+			printf("%d\t%s\t%d\t%d\t%d\n", i, instr[code[i].f], code[i].f, code[i].x, code[i].y);
 		else if(code[i].f > 30)
-			printf("%d\t%d\t\t\t\n", i, code[i].f, code[i].y);
+			printf("%d\t%s\t%d\t\t\t\n", i, instr[code[i].f], code[i].f, code[i].y);
 		else
-			printf("%d\t%d\t\t%d\n", i, code[i].f);
+			printf("%d\t%s\t%d\t\t%d\n", i, instr[code[i].f], code[i].f);
 	}
 
 

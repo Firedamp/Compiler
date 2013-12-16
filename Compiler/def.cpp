@@ -1,6 +1,6 @@
 #include"head.h"
 
-char *symstr[] = {
+char *symstr[NSY] = {
 	"CONSTTK",	"INTTK",	"CHARTK",	"REALTK",	"VARTK",	"ARRAYTK",	"OFTK",
 	"REPTTK",	"UNLTK",	"IFTK",		"WHILETK",	"CASETK",	"THENTK",	"ELSETK",	"DOTK",
 	"FORTK",	"TOTK",		"DOWNTOTK",	"PROCETK",	"FUNCTK",	"READTK",	
@@ -20,6 +20,17 @@ char *key[NKW] = {
 	"repeat",		"until",		"if",			"while",		"case",			"then",			"else",			"do",
 	"for",			"to",			"downto",		"procedure",	"function",		"read",
 	"write",		"begin",		"end"
+};
+
+char *instr[OMAX] = {
+	"LDA",	"LOD",	"LDI",	"DIS",	"",		"",		"",		"",
+	"FCT",	"INT",	"JMP",	"JPC",	"SWT",	"CAS",	"F1U",	"F2U",
+	"F1D",	"F2D",	"MKS",	"CAL",	"IDX",	"IXX",	"LDB",	"CPB",
+	"LDC",	"LDR",	"FLT",	"RED",	"WRS",	"WRW",	"WRU",	"HLT",
+	"EXP",	"EXF",	"LDT",	"NOT",	"MUS",	"WRR",	"STO",	"EQR",
+	"NER",	"LSR",	"LER",	"GTR",	"GER",	"EQL",	"NEQ",	"LSS",
+	"LER",	"GRT",	"GEQ",	"ORR",	"ADD",	"SUB",	"ADR",	"SUR",
+	"AND",	"MUL",	"DIV",	"MOD",	"MUR",	"DIR",	"RDL",	"WRL"
 };
 
 symbol sym;

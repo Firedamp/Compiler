@@ -1,7 +1,9 @@
 const z = 0, a = 1, c = 1.0032, d = 'a';
 var head,n:integer;
-    num, num2:array [10] of char;
+    string:array [10] of char;
+    num:array [10] of int;
 begin
   n := z;
-  n := z+1
+  n := z+1;
+  num[1] := 2
 end.

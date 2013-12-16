@@ -45,7 +45,8 @@ void block(bool fsys[], bool isfun, int level){    //nextfsys
 		error(14);//»±…Ÿ∑÷∫≈
 	//do{
 	if(sym == CONSTTK)
-		constdec(fsys, level);
+		const
+		dec(fsys, level);
 	if(sym == VARTK)
 		variabledec(fsys, level, &dx);
 	btab[prb].vsize = dx;

@@ -32,7 +32,7 @@ void getsym(){
 		for(j = 0; j < NKW; j++)
 			if(strcmp(token, key[j]) == 0)
 				sym = (symbol)j;
-		printf("%s %s\n", symstr[sym], token);
+		printf("%s\t  %s\n", symstr[sym], token);
 	}
 	else if(ch >= '0' && ch <= '9'){
 		inum = 0;
@@ -73,11 +73,11 @@ void getsym(){
 					}
 					getch();
 				}while(ch >= '0' && ch <= '9');
-				rnum += inum / pow(10.0, j+1);
-				printf("%s %lf\n", symstr[sym], rnum);
+				rnum += inum / pow(10.0, j);
+				printf("%s\t  %lf\n", symstr[sym], rnum);
 			}
 		}
-		else printf("%s %d\n", symstr[sym], inum);
+		else printf("%s\t  %d\n", symstr[sym], inum);
 	}
 	else if(ch == '\''){
 		token[0] = '\'';
@@ -97,7 +97,7 @@ void getsym(){
 			token[2] = '\'';
 			token[3] = '\0';
 			sym = CHARCON;
-			printf("%s %c\n", symstr[sym], ch);
+			printf("%s\t  %c\n", symstr[sym], ch);
 			getch();
 		}
 	}

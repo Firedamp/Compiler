@@ -183,6 +183,7 @@ void factor(item *x, int level){
 						getsym();
 					else
 						error();
+
 					emit(34);
 				}
 				else{
