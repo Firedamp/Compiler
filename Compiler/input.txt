@@ -1,13 +1,6 @@
 var day, month, year, zday, m, y1, y2 : integer;
+	s:real;
 begin
-    read(day, month, year);
-    if month < 3
-    then begin
-	m := month + 10;
-	year := year - 1
-    end else
-	m := month - 2;
-    y1 := year / 100;
-    y2 := year / 100;
-    write(zday);
+    read(s);
+    write(s)
 end.

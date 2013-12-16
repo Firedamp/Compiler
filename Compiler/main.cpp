@@ -8,10 +8,19 @@ int main(int argc, char *argv[]){
 	lc = 0;		//lc指向下一个即将写入指令的位置（先写后+1），所以初始化为0
 	c1 = -1;		//以下其他表格指针指向当前最后一个已经写入指令的位置（先+1后写），所以初始化为-1
 	c2 = -1;
-	t = 0;
+	t = 1;
 	b = -1;
 	a = -1;
 	uk = 1;
+
+	tab[1].obj = PROCDURE;
+	tab[1].typ = NOTYP;
+	tab[1].adr = 0;
+	tab[1].lev = -1;
+	tab[1].link = 0;
+	tab[1].ref = 0;
+	tab[1].normal = true;
+	strcpy(tab[1].name, "     ");
 
 	initsys();
 
@@ -49,17 +58,21 @@ int main(int argc, char *argv[]){
 		if(code[i].f < 4)
 			printf("%d\t%s\t%d\t%d\t%d\n", i, instr[code[i].f], code[i].f, code[i].x, code[i].y);
 		else if(code[i].f > 30)
-			printf("%d\t%s\t%d\t\t\t\n", i, instr[code[i].f], code[i].f, code[i].y);
+			printf("%d\t%s\t%d\t\t\t\n", i, instr[code[i].f], code[i].f);
 		else
-			printf("%d\t%s\t%d\t\t%d\n", i, instr[code[i].f], code[i].f);
+			printf("%d\t%s\t%d\t\t%d\n", i, instr[code[i].f], code[i].f, code[i].y);
 	}
 
 
 	
-	if(sym == PERIOD)
+	if(sym == PERIOD){
+		emit(31);
 		printf("Program Completed\n");
+	}
 	else
 		error(6);//缺少句号
 	fclose(input);
 	fclose(output);
+
+	interpret();
 }

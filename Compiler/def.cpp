@@ -57,5 +57,7 @@ struct table tab[TMAX];
 struct btable btab[BMAX];
 struct atable atab[AMAX];
 struct order code[CMAX];
+char stab[SMAX];
+
 
 FILE *input, *output;

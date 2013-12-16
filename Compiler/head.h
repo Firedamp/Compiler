@@ -72,6 +72,7 @@ void multi_statement();*/
 #define		LINELENG	132
 #define		LINELIMIT	200
 #define		STACKSIZE	1450
+#define		LINELENG	132
 
 enum symbol{
 	CONSTTK,	/*const*/			INTTK,		/*integer*/			CHARTK,		/*char*/		REALTK,
@@ -95,6 +96,15 @@ enum symbol{
 enum objecttyp{ CONSTANT, VARIABLE, PROCDURE, FUNCTION};
 
 enum types{ NOTYP, INTS, REALS, CHARS, ARRAYS};
+
+enum pss{ RUN, FIN, CASCHK, DIVCHK, INXCHK, STKCHK, LINCHK, LNGCHK, REDCHK};
+
+struct stack{
+	types cn;
+	int i;
+	double r;
+	char c;
+};
 
 struct table{
 	char name[ALNG];
@@ -166,6 +176,7 @@ extern struct table tab[TMAX];
 extern struct btable btab[BMAX];
 extern struct atable atab[AMAX];
 extern struct order code[CMAX];
+extern char stab[SMAX];
 
 extern bool blockbegsys[NSY];
 extern bool statbegsys[NSY];
@@ -224,7 +235,7 @@ void callstatement(int i, int level);
 void writestatement(int level);
 void readstatement(int level);
 
-
+void interpret();
 
 
 #endif

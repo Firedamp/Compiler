@@ -47,5 +47,8 @@
     <ClCompile Include="expression.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="interpret.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

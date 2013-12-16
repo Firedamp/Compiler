@@ -270,6 +270,10 @@ void typ(bool fsys[], types *tp, int *rf, int *sz){
 		*tp = CHARS;
 		getsym();
 	}
+	else if(sym == REALTK){
+		*tp = REALS;
+		getsym();
+	}
 	else if(sym == ARRAYTK){
 		getsym();
 		*tp = ARRAYS;
