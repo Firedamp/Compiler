@@ -136,6 +136,10 @@ struct item{
 	int ref;
 };
 
+struct casestab{
+	int val;
+	int lc;
+};
 
 
 extern symbol sym;
@@ -213,6 +217,8 @@ void assignstatement(int i, int lv, int ad, int level);
 void compoundstatement(int level);
 void ifstatement(int level);
 void casestatement(int level);
+void caselabel(casestab casetab[], int *i, item *x);
+void onecase(casestab casetab[], int exittab[], int *i, int *j, item *x, int level);
 void forstatement(int level);
 void callstatement(int i, int level);
 void writestatement(int level);

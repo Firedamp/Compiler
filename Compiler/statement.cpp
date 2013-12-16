@@ -130,6 +130,75 @@ void ifstatement(int level){
 }
 
 void casestatement(int level){
+	item x;
+	int i, j, k, lc1;
+	casestab casetab[CSMAX];
+	int exittab[CSMAX];
+	getsym();
+	i = 0;
+	j = 0;
+	expression(&x, level);
+	if(x.typ != INTS && x.typ != CHARS)
+		error(23);
+	lc1 = lc;
+	emit(12);
+	if(sym == OFTK)
+		getsym();
+	else
+		error(8);
+	onecase(casetab, exittab, &i, &j, &x, level);
+	while(sym == SEMICH){
+		getsym();
+		onecase(casetab, exittab, &i, &j, &x, level);
+	}
+	code[lc1].y = lc;
+	for(k = 1; k <= j; k++)
+		code[exittab[k]].y = lc;
+	if(sym == ENDTK)
+		getsym();
+	else
+		error(57);//缺少end
+	
+}
+
+void caselabel(casestab casetab[], int *i, item *x){
+	conrec lab;
+	int k;
+	bool nextfsys[NSY];
+
+	constant(nextfsys, &lab);
+	if(lab.tp != x->typ)
+		error(47);
+	else
+		if(*i >= CSMAX-1)
+			fatal(6);///
+		else{
+			i++;
+			k = 0;
+			casetab[*i].val = lab.i;
+			casetab[*i].lc = lc;
+			do k++;
+			while(casetab[k].val != lab.i);
+			if(k < *i)
+				error(1);//重定义
+		}
+}
+
+void onecase(casestab casetab[], int exittab[], int *i, int *j, item *x, int level){
+	//if sym in constbegsys
+	caselabel(casetab, i, x);
+	while(sym == COMMA){
+		getsym();
+		caselabel(casetab, i, x);
+	}
+	if(sym = COLON)
+		getsym();
+	else
+		error(5);//缺少冒号
+	statement(level);
+	*j++;
+	exittab[*j] = lc;
+	emit(10);
 }
 
 void forstatement(int level){
@@ -234,7 +303,7 @@ void callstatement(int i, int level){
 				}
 			}
 			test();
-		}while(sym != COMMA);
+		}while(sym == COMMA);
 		if(sym == RPARENT)
 			getsym();
 		else
