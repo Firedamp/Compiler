@@ -139,7 +139,6 @@ void term(item *x, int level){
 }
 
 void factor(item *x, int level){
-	item z;
 	int i, f;
 	x->typ = NOTYP;
 	x->ref = 0;
@@ -166,7 +165,7 @@ void factor(item *x, int level){
 						f = 1;
 					emit(f, tab[i].lev, tab[i].adr);
 					
-					getsym();						//selector
+					/*getsym();						//selector
 					expression(&z, level);
 					if(x->typ != ARRAYS)
 						error(28);//变量不是数组
@@ -182,7 +181,8 @@ void factor(item *x, int level){
 					if(sym == RBRACK)
 						getsym();
 					else
-						error();
+						error();*/
+					selector(x, level);
 
 					emit(34);
 				}
@@ -201,7 +201,7 @@ void factor(item *x, int level){
 			}
 			else if(tab[i].obj == FUNCTION){
 				x->typ = tab[i].typ;
-				callstatement(i);
+				callstatement(i, level);
 			}
 			else
 				error();
@@ -250,4 +250,26 @@ types resulttype(types a, types b){
 			emit(26, 0);
 		return REALS;
 	}
+}
+
+void selector(item *v, int level){
+	item x;
+	int a, j;
+	getsym();						//selector
+	expression(&x, level);
+	if(v->typ != ARRAYS)
+	error(28);//变量不是数组
+	else{
+	if(x.typ != INTS)
+		error(26);//数组下标为整数
+	else
+		emit(20, v->ref);
+	v->typ = atab[v->ref].eltyp;
+	v->ref = 0;
+	}
+	getsym();
+	if(sym == RBRACK)
+		getsym();
+	else
+		error();
 }

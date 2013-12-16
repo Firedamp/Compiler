@@ -39,6 +39,7 @@ int lc;					//代码指针
 
 int inum;							//读到的整数
 double rnum;						//读到的实数
+int sleng;
 char token[ALNG], ch = ' ';			//读到的单词与一个字符
 
 int t, a, b, sx, c1, c2;			//表格指针

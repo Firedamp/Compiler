@@ -41,12 +41,11 @@ void block(bool fsys[], bool isfun, int level){    //nextfsys
 	}
 	if(sym == SEMICH && level > 0)
 		getsym();
-	else if(level != 1)		////////
+	else if(level != 0)		////////
 		error(14);//»±…Ÿ∑÷∫≈
 	//do{
 	if(sym == CONSTTK)
-		const
-		dec(fsys, level);
+		constdec(fsys, level);
 	if(sym == VARTK)
 		variabledec(fsys, level, &dx);
 	btab[prb].vsize = dx;

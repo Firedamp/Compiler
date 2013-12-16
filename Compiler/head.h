@@ -144,6 +144,7 @@ extern int lc;
 
 extern int inum;							//读到的整数
 extern double rnum;						//读到的实数
+extern int sleng;
 extern char token[ALNG], ch;			//读到的单词与一个字符
 extern int t, a, b, sx, c1, c2;			//表格指针
 extern int uk;			//缺失标识符的过程与方法定义数
@@ -205,6 +206,7 @@ void expression(item *x, int level);
 void term(item *x, int level);
 void factor(item *x, int level);
 types resulttype(types a, types b);
+void selector(item *x, int level);
 
 void statement(int level);
 void assignstatement(int i, int lv, int ad, int level);
@@ -212,7 +214,7 @@ void compoundstatement(int level);
 void ifstatement(int level);
 void casestatement(int level);
 void forstatement(int level);
-void callstatement(int i);
+void callstatement(int i, int level);
 void writestatement(int level);
 void readstatement(int level);
 

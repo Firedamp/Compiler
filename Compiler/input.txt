@@ -1,9 +1,13 @@
-const z = 0, a = 1, c = 1.0032, d = 'a';
-var head,n:integer;
-    string:array [10] of char;
-    num:array [10] of int;
+var day, month, year, zday, m, y1, y2 : integer;
 begin
-  n := z;
-  n := z+1;
-  num[1] := 2
+    read(day, month, year);
+    if month < 3
+    then begin
+	m := month + 10;
+	year := year - 1
+    end else
+	m := month - 2;
+    y1 := year / 100;
+    y2 := year / 100;
+    write(zday);
 end.

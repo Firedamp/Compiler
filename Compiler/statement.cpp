@@ -14,7 +14,7 @@ void statement(int level){
 				else
 					error(45);//不在所要赋值的函数名对应的函数中
 			else if(tab[i].obj == PROCDURE)//过程调用语句
-				callstatement(i);
+				callstatement(i, level);
 			else
 				error();
 		}
@@ -22,15 +22,15 @@ void statement(int level){
 	else if(sym == BEGINTK)
 		compoundstatement(level);
 	else if(sym == IFTK)
-		ifstatement();
+		ifstatement(level);
 	else if(sym == CASETK)
-		casestatement();
+		casestatement(level);
 	else if(sym == FORTK)
-		forstatement();
+		forstatement(level);
 	else if(sym == WRITETK)
-		writestatement();
+		writestatement(level);
 	else if(sym == READTK)
-		readstatement();
+		readstatement(level);
 	else if(statfolsys[sym])//空语句，这个处理有瑕疵
 		;
 	else
@@ -38,7 +38,7 @@ void statement(int level){
 }
 
 void assignstatement(int i, int lv, int ad, int level){
-	item x, y, z;
+	item x, y;
 	int f, a;
 	x.typ = tab[i].typ;
 	x.ref = tab[i].ref;
@@ -48,7 +48,7 @@ void assignstatement(int i, int lv, int ad, int level){
 		f = 1;
 	emit(f, lv, ad);
 	if(sym == LBRACK){
-		getsym();								//selector
+		/*getsym();								//selector
 		expression(&z, level);
 		if(x.typ != ARRAYS)
 			error(28);//变量不是数组
@@ -64,7 +64,8 @@ void assignstatement(int i, int lv, int ad, int level){
 		if(sym == RBRACK)
 			getsym();
 		else
-			error();
+			error();*/
+		selector(&x, level);
 	}
 	if(sym == ASSIGN)
 		getsym();
@@ -106,7 +107,7 @@ void ifstatement(int level){
 	item x;
 	int lc1, lc2;
 	getsym();
-	expression(&x, level);
+	condition(&x, level);
 	if(x.typ != INTS)
 		error(17);
 	lc1 = lc;
@@ -132,14 +133,124 @@ void casestatement(int level){
 }
 
 void forstatement(int level){
+	types cvt;
+	item x;
+	int i, f, lc1, lc2;
+	getsym();
+	if(sym == IDEN){
+		i = loc(token, level);
+		if(i == 0)
+			cvt = INTS;///////为什么
+		else if(tab[i].obj == VARIABLE){
+			cvt = tab[i].typ;
+			if(!tab[i].normal)
+				error(37);////////////////不行吗
+			else
+				emit(0, tab[i].lev, tab[i].adr);
+			if(cvt != INTS && cvt != CHARS)
+				error(18);//不能循环的类型
+		}
+		else{
+			error(37);
+			cvt = INTS;
+		}
+	}
+	else
+		error();
+	if(sym == ASSIGN){
+		getsym();
+		expression(&x, level);
+		if(x.typ != cvt)
+			error(19);
+	}
+	else
+		error();
+	f = 14;
+	if(sym == TOTK ||sym == DOWNTOTK){
+		if(sym == DOWNTOTK)
+			f = 16;
+		getsym();
+		expression(&x, level);
+		if(x.typ != cvt)
+			error(19);
+	}
+	else
+		error();
+	lc1 = lc;
+	emit(f);
+	if(sym == DOTK)
+		getsym();
+	else
+		error(54);
+	lc2 = lc;
+	statement(level);
+	emit(f+1, lc2);
+	code[lc1].y = lc;
 }
 
-void callstatement(int i){
+void callstatement(int i, int level){
+	item x;
+	int lastp, cp, k;
+	emit(18, i);
+	lastp = btab[tab[i].ref].lastpar;
+	cp = i;
+	if(sym == LPARENT){
+		do{
+			getsym();
+			if(cp >= lastp)
+				error(39);
+			else{
+				cp++;
+				if(tab[i].normal){//值形参
+					expression(&x, level);
+					if(x.typ != tab[cp].typ){
+						if(x.typ == INTS && tab[cp].typ == REALS)
+							emit(26, 0);
+						else
+							error(36);//类型不匹配
+					}
+				}
+				else{//变量形参
+					if(sym != IDEN)
+						error(2);
+					else{
+						k = loc(token, level);
+						getsym();
+						if(k != 0){
+							if(tab[k].obj != VARIABLE)
+								error(37);
+							x.typ = tab[k].typ;
+							x.ref = tab[k].ref;
+							if(tab[k].normal)
+								emit(0, tab[k].lev, tab[k].adr);
+							else
+								emit(1, tab[k].lev, tab[k].adr);
+							if(sym == LBRACK)
+								selector(&x, level);
+							if(x.typ != tab[cp].typ || x.ref != tab[cp].ref)
+								error(36);
+						}
+					}
+				}
+			}
+			test();
+		}while(sym != COMMA);
+		if(sym == RPARENT)
+			getsym();
+		else
+			error(4);
+	}
+	if(cp < lastp)
+		error(39);//参数不够
+	emit(19, btab[tab[i].ref].psize-1);
+	if(tab[i].lev < level)
+		emit(3, tab[i].lev, level);
 }
-
+					
 void readstatement(int level){
 	int i, f;
 	item x, y;
+	getsym();
 	if(sym == LPARENT){
 		do{
 			getsym();
@@ -187,17 +298,19 @@ void readstatement(int level){
 				}
 			}
 			test();
-		}while(sym != COMMA);
+		}while(sym == COMMA);
 		if(sym == RPARENT)
 			getsym();
 		else
 			error(4);//缺少右括号
 	}
+	error();//缺少左括号
 }
 
 void writestatement(int level){
 	int a, f;
 	item x, y;
+	getsym();
 	if(sym == LPARENT){
 		getsym();
 		if(sym == STRCON){
