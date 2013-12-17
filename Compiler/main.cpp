@@ -32,6 +32,12 @@ int main(int argc, char *argv[]){
 	unisys(nextfsys, blockbegsys, statbegsys);
 	block(nextfsys, false, 0);
 
+	if(sym == PERIOD){
+		emit(31);
+		printf("Program Completed\n");
+	}
+	else
+		error(6);//È±ÉÙ¾äºÅ
 
 	printf("\n\n== real const table ==\n");
 	printf("No.\tvalue\n");
@@ -64,14 +70,6 @@ int main(int argc, char *argv[]){
 			printf("%d\t%s\t%d\t\t%d\n", i, instr[code[i].f], code[i].f, code[i].y);
 	}
 
-
-	
-	if(sym == PERIOD){
-		emit(31);
-		printf("Program Completed\n");
-	}
-	else
-		error(6);//È±ÉÙ¾äºÅ
 	fclose(input);
 	fclose(output);
 

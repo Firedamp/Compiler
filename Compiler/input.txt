@@ -1,5 +1,8 @@
-var s:real;
+var s:integer;
 begin
     read(s);
-    write("hello", s)
+    if s >= 10 then
+        write("s >= 10")
+    else
+        write("s < 10")
 end.

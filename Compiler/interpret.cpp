@@ -18,7 +18,7 @@ void interpret(){
 	s[3].i = 1;
 	display[0] = 0;
 	display[1] = 0;
-	t = btab[1].vsize - 1;
+	t = btab[0].vsize - 2;
 	b = 0;
 	pc = tab[1].adr;
 	lncnt = 0;
@@ -318,27 +318,27 @@ void interpret(){
 			break;
 		case 45:
 			t--;
-			s[t].i = (s[t].r == s[t+1].r);
+			s[t].i = (s[t].i == s[t+1].i);
 			break;
 		case 46:
 			t--;
-			s[t].i = (s[t].r != s[t+1].r);
+			s[t].i = (s[t].i != s[t+1].i);
 			break;
 		case 47:
 			t--;
-			s[t].i = (s[t].r < s[t+1].r);
+			s[t].i = (s[t].i < s[t+1].i);
 			break;
 		case 48:
 			t--;
-			s[t].i = (s[t].r <= s[t+1].r);
+			s[t].i = (s[t].i <= s[t+1].i);
 			break;
 		case 49:
 			t--;
-			s[t].i = (s[t].r > s[t+1].r);
+			s[t].i = (s[t].i > s[t+1].i);
 			break;
 		case 50:
 			t--;
-			s[t].i = (s[t].r >= s[t+1].r);
+			s[t].i = (s[t].i >= s[t+1].i);
 			break;
 		case 51:
 			t--;
@@ -346,19 +346,19 @@ void interpret(){
 			break;
 		case 52:
 			t--;
-			s[t].i = (s[t].i + s[t+1].i);
+			s[t].i = s[t].i + s[t+1].i;
 			break;
 		case 53:
 			t--;
-			s[t].i = (s[t].i - s[t+1].i);
+			s[t].i = s[t].i - s[t+1].i;
 			break;
 		case 54:
 			t--;
-			s[t].i = (s[t].r + s[t+1].r);
+			s[t].r = s[t].r + s[t+1].r;
 			break;
 		case 55:
 			t--;
-			s[t].i = (s[t].r - s[t+1].r);
+			s[t].r = s[t].r - s[t+1].r;
 			break;
 		case 56:
 			t--;
@@ -366,7 +366,7 @@ void interpret(){
 			break;
 		case 57:
 			t--;
-			s[t].i = (s[t].i * s[t+1].i);
+			s[t].i = s[t].i * s[t+1].i;
 			break;
 		case 58:
 			t--;
