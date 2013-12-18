@@ -156,8 +156,8 @@ void casestatement(int level){
 	}
 	code[lc1].y = lc;
 	for(k = 0; k <= i; k++){
-		emit(13, casetab[k].val);
-		emit(13, casetab[k].lc);
+		emit(13, casetab[k].val, casetab[k].lc);
+		//emit(13, casetab[k].lc);
 	}
 	emit(10, 0);
 	for(k = 0; k <= j; k++)
