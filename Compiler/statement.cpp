@@ -69,8 +69,11 @@ void assignstatement(int i, int lv, int ad, int level){
 	}
 	if(sym == ASSIGN)
 		getsym();
-	else
+	else{
 		error();
+		if(sym == EQL)
+			getsym();
+	}
 	expression(&y, level);
 	if(x.typ == y.typ)
 		if(x.typ == INTS || x.typ == REALS || x.typ == CHARS)////////////////int,char
@@ -135,8 +138,8 @@ void casestatement(int level){
 	casestab casetab[CSMAX];
 	int exittab[CSMAX];
 	getsym();
-	i = 0;
-	j = 0;
+	i = -1;
+	j = -1;
 	expression(&x, level);
 	if(x.typ != INTS && x.typ != CHARS)
 		error(23);
@@ -152,7 +155,12 @@ void casestatement(int level){
 		onecase(casetab, exittab, &i, &j, &x, level);
 	}
 	code[lc1].y = lc;
-	for(k = 1; k <= j; k++)
+	for(k = 0; k <= i; k++){
+		emit(13, casetab[k].val);
+		emit(13, casetab[k].lc);
+	}
+	emit(10, 0);
+	for(k = 0; k <= j; k++)
 		code[exittab[k]].y = lc;
 	if(sym == ENDTK)
 		getsym();
@@ -173,8 +181,8 @@ void caselabel(casestab casetab[], int *i, item *x){
 		if(*i >= CSMAX-1)
 			fatal(6);///
 		else{
-			i++;
-			k = 0;
+			(*i)++;
+			k = -1;
 			casetab[*i].val = lab.i;
 			casetab[*i].lc = lc;
 			do k++;
@@ -196,7 +204,7 @@ void onecase(casestab casetab[], int exittab[], int *i, int *j, item *x, int lev
 	else
 		error(5);//È±ÉÙÃ°ºÅ
 	statement(level);
-	*j++;
+	(*j)++;
 	exittab[*j] = lc;
 	emit(10);
 }
@@ -208,6 +216,7 @@ void forstatement(int level){
 	getsym();
 	if(sym == IDEN){
 		i = loc(token, level);
+		getsym();
 		if(i == 0)
 			cvt = INTS;///////ÎªÊ²Ã´
 		else if(tab[i].obj == VARIABLE){

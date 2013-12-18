@@ -62,7 +62,7 @@ int main(int argc, char *argv[]){
 	printf("\n\n============== code ==============\n");
 	printf("No.\tname\tf\tx\ty\n");
 	for(int i = 0; i < lc; i++){
-		if(code[i].f < 4)
+		if(code[i].f < 4 || code[i].f == 13)
 			printf("%d\t%s\t%d\t%d\t%d\n", i, instr[code[i].f], code[i].f, code[i].x, code[i].y);
 		else if(code[i].f > 30)
 			printf("%d\t%s\t%d\t\t\t\n", i, instr[code[i].f], code[i].f);

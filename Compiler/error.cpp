@@ -1,7 +1,7 @@
 #include"head.h"
 
 void error(int n){
-	printf("ERROR: %d\n", n);
+	printf("%d,%d\tERROR: %d\n", ll, cc, n);
 }
 
 void error(){

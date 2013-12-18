@@ -6,6 +6,7 @@ void interpret(){
 	int t;
 	int b;
 	int h1, h2, h3, h4;
+	char c;
 	int lncnt, ocnt, blkcnt, chrcnt;
 	int fld[4];
 	int display[LMAX];
@@ -18,7 +19,7 @@ void interpret(){
 	s[3].i = 1;
 	display[0] = 0;
 	display[1] = 0;
-	t = btab[0].vsize - 2;
+	t = btab[0].vsize - 1;
 	b = 0;
 	pc = tab[1].adr;
 	lncnt = 0;
@@ -94,6 +95,8 @@ void interpret(){
 					h3 = 1;
 					pc = code[h2+1].y;
 				}
+				else
+					h2 += 2;
 			}while(h3 == 0);
 			break;
 		case 14:
@@ -235,8 +238,10 @@ void interpret(){
 				scanf("%d", &s[s[t].i].i);
 			else if(ir.y == 2)
 				scanf("%lf", &s[s[t].i].r);
-			else if(ir.y == 4)
-				scanf("%c", &s[s[t].i].c);
+			else if(ir.y == 3){
+				scanf("%c", &c);
+				s[s[t].i].i = c;
+			}
 			t--;
 			break;
 		case 28:
@@ -257,8 +262,8 @@ void interpret(){
 				printf("%d", s[t].i);
 			else if(ir.y == 2)
 				printf("%lf", s[t].r);
-			else if(ir.y == 4)
-				printf("%c", s[t].c);
+			else if(ir.y == 3)
+				printf("%c", s[t].i);
 			t--;
 			break;
 		case 30:

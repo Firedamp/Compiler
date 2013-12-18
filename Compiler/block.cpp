@@ -61,7 +61,7 @@ void block(bool fsys[], bool isfun, int level){    //nextfsys
 	else
 		error(14);//缺少begin
 	//test();
-	printf("Block Completed");
+	printf("Block Completed\n");
 }
 
 void parameterlist(int *dx, int level){ //形式参数表
@@ -224,7 +224,7 @@ void variabledec(bool fsys[], int level, int *dx){
 		if(sym == SEMICH)
 			getsym();
 		else
-			error();
+			error(14);
 	}
 }
 

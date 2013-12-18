@@ -1,8 +1,16 @@
-var s:integer;
+var s, i:integer;
+    ch:char;
 begin
-    read(s);
-    if s >= 10 then
-        write("s >= 10")
-    else
-        write("s < 10")
+    read(ch);
+    case ch of
+    '1':
+       begin
+	write(ch)
+	end;
+    '2':
+	write(ch);
+    '3','4':
+	write(ch)
+    end;
+    write("end.")
 end.
