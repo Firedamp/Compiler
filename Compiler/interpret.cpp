@@ -98,7 +98,11 @@ void interpret(){
 				else
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 					h2 += 2;
+=======
+					h2++;
+>>>>>>> 9d8a88ef10a1bd22ac4a88d9c2ead270c339447e
 =======
 					h2++;
 >>>>>>> 9d8a88ef10a1bd22ac4a88d9c2ead270c339447e

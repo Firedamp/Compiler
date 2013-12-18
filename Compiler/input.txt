@@ -1,6 +1,7 @@
 var s, i:integer;
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     ch:char;
 begin
     read(ch);
@@ -20,6 +21,9 @@ begin
 =======
 begin
 >>>>>>> 9d8a88ef10a1bd22ac4a88d9c2ead270c339447e
+=======
+begin
+>>>>>>> 9d8a88ef10a1bd22ac4a88d9c2ead270c339447e
     read(i);
     case i of
     1:
@@ -32,6 +36,9 @@ begin
 	write("3,4")
     end
 <<<<<<< HEAD
+<<<<<<< HEAD
+>>>>>>> 9d8a88ef10a1bd22ac4a88d9c2ead270c339447e
+=======
 >>>>>>> 9d8a88ef10a1bd22ac4a88d9c2ead270c339447e
 =======
 >>>>>>> 9d8a88ef10a1bd22ac4a88d9c2ead270c339447e
