@@ -18,7 +18,7 @@ void interpret(){
 	s[3].i = 1;
 	display[0] = 0;
 	display[1] = 0;
-	t = btab[0].vsize - 2;
+	t = btab[0].vsize - 1;
 	b = 0;
 	pc = tab[1].adr;
 	lncnt = 0;
@@ -94,6 +94,8 @@ void interpret(){
 					h3 = 1;
 					pc = code[h2+1].y;
 				}
+				else
+					h2 += 2;
 			}while(h3 == 0);
 			break;
 		case 14:

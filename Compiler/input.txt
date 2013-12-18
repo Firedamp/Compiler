@@ -1,8 +1,14 @@
-var s:integer;
+var s, i:integer;
 begin
-    read(s);
-    if s >= 10 then
-        write("s >= 10")
-    else
-        write("s < 10")
+    read(i);
+    case i of
+    1:
+       begin
+	write("1")
+	end;
+    2:
+	write("2");
+    3,4:
+	write("3,4")
+    end
 end.
