@@ -46,7 +46,7 @@ void enter(char token[], objecttyp k, int level){
 	while(strcmp(tab[j].name, token) != 0)
 		j = tab[j].link;
 	if(j != 0)
-		error(1);//重定义
+		error(ENTER, 1);//重定义
 	else{
 		t++;
 		strcpy(tab[t].name, token);
@@ -67,7 +67,7 @@ void entervariable(int level){
 		getsym();
 	}
 	else
-		error(2);//缺少标识符
+		error(ENTERVARIABLE, 2);//缺少标识符
 }
 
 void emit(int fct){
@@ -108,7 +108,7 @@ int loc(char id[], int level){
 		i--;
 	}while(i >= 0 && j == 0);
 	if(j == 0)
-		error(0);//未定义的标识符
+		error(LOC, 0);//未定义的标识符
 	return j;
 }
 

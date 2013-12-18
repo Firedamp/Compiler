@@ -99,143 +99,187 @@ enum types{ NOTYP, INTS, REALS, CHARS, ARRAYS};
 
 enum pss{ RUN, FIN, CASCHK, DIVCHK, INXCHK, STKCHK, LINCHK, LNGCHK, REDCHK};
 
-struct stack{
-	types cn;
-	int i;
-	double r;
-	char c;
+enum position{
+	MAIN,
+	FATAL,
+	ERROR,
+	TEST,
+	INITSYS,
+	UNISYS,
+	CPYSYS,
+	ENTERBLOCK,
+	ENTERREAL,
+	ENTERARRAY,
+	ENTER,
+	ENTERVARIABLE,
+	EMIT,
+	LOC,
+	PARAMETERLIST,
+	GETSYM,
+	BLOCK,
+	CONSTDEC,
+	VARIABLEDEC,
+	PROCEDUREDEC,
+	CONSTANTT,
+	TYP,
+	CONDITION,
+	EXPRESSION,
+	TERM,
+	FACTOR,
+	RESULTTYPE,
+	SELECTOR,
+	STATEMENT,
+	ASSIGNSTATEMENT,
+	COMPOUNDSTATEMENT,
+	IFSTATEMENT,
+	CASESTATEMENT,
+	CASELABEL,
+	ONECASE,
+	FORSTATEMENT,
+	CALLSTATEMENT,
+	WRITESTATEMENT,
+	READSTATEMENT,
+	INTERPRET
 };
 
-struct table{
-	char name[ALNG];
-	int link;
-	objecttyp obj;
-	types typ;
-	int ref;
-	bool normal;
-	int lev;
-	int adr;
-};
+	struct stack{
+		types cn;
+		int i;
+		double r;
+		char c;
+	};
 
-struct atable{
-	 types eltyp;
-	 int size;
-};
+	struct table{
+		char name[ALNG];
+		int link;
+		objecttyp obj;
+		types typ;
+		int ref;
+		bool normal;
+		int lev;
+		int adr;
+	};
 
-struct btable{
-	int last;
-	int lastpar;
-	int psize;
-	int vsize;
-};
+	struct atable{
+		types eltyp;
+		int size;
+	};
 
-struct conrec{
-	types tp;
-	int i;
-	double r;
-};
+	struct btable{
+		int last;
+		int lastpar;
+		int psize;
+		int vsize;
+	};
 
-struct order{
-	int f;
-	int x;
-	int y;
-};
+	struct conrec{
+		types tp;
+		int i;
+		double r;
+	};
 
-struct item{
-	types typ;
-	int ref;
-};
+	struct order{
+		int f;
+		int x;
+		int y;
+	};
 
-struct casestab{
-	int val;
-	int lc;
-};
+	struct item{
+		types typ;
+		int ref;
+	};
 
-
-extern symbol sym;
-extern int ll, cc;				//行数列数
-extern int lc;
-
-extern int inum;							//读到的整数
-extern double rnum;						//读到的实数
-extern int sleng;
-extern char token[ALNG], ch;			//读到的单词与一个字符
-extern int t, a, b, sx, c1, c2;			//表格指针
-extern int uk;			//缺失标识符的过程与方法定义数
-
-extern char *key[];
-extern char *symstr[];
-extern char *objstr[];
-extern char *typstr[];
-extern char *boolstr[];
-extern char *instr[];
-
-extern int display[LMAX];	//都没有初始化
-extern double rconst[C2MAX];
-extern struct table tab[TMAX];
-extern struct btable btab[BMAX];
-extern struct atable atab[AMAX];
-extern struct order code[CMAX];
-extern char stab[SMAX];
-
-extern bool blockbegsys[NSY];
-extern bool statbegsys[NSY];
-extern bool facbegsys[NSY];
-extern bool statfolsys[NSY];
-
-extern FILE *input, *output;
+	struct casestab{
+		int val;
+		int lc;
+	};
 
 
-void fatal(int n);
-void error(int n);
-void error();
+	extern symbol sym;
+	extern int ll, cc;				//行数列数
+	extern int lc;
 
-void test();
+	extern int inum;							//读到的整数
+	extern double rnum;						//读到的实数
+	extern int sleng;
+	extern char token[ALNG], ch;			//读到的单词与一个字符
+	extern int t, a, b, sx, c1, c2;			//表格指针
+	extern int uk;			//缺失标识符的过程与方法定义数
 
-void initsys();
-void unisys(bool *s, bool *s1, bool *s2);
-void cpysys(bool *s1, bool *s2);
+	extern char *key[];
+	extern char *symstr[];
+	extern char *objstr[];
+	extern char *typstr[];
+	extern char *boolstr[];
+	extern char *instr[];
+	extern char *posstr[];
 
-void enterblock();
-void enterreal(double r);
-void enterarray(int sz);
-void enter(char token[], objecttyp k, int level);
-void entervariable(int level);
-void emit(int fct);
-void emit(int fct, int b);
-void emit(int fct, int a, int b);
-int loc(char id[], int level);
+	extern int display[LMAX];	//都没有初始化
+	extern double rconst[C2MAX];
+	extern struct table tab[TMAX];
+	extern struct btable btab[BMAX];
+	extern struct atable atab[AMAX];
+	extern struct order code[CMAX];
+	extern char stab[SMAX];
 
-void parameterlist(int *dx, int level);
-void getsym();
+	extern bool blockbegsys[NSY];
+	extern bool statbegsys[NSY];
+	extern bool facbegsys[NSY];
+	extern bool statfolsys[NSY];
 
-void block(bool fsys[], bool isfun, int level);
-void constdec(bool fsys[], int level);
-void variabledec(bool fsys[], int level, int *dx);
-void proceduredec(bool fsys[], int level);
-void constant(bool fsys[], struct conrec *c);
-void typ(bool fsys[], types *tp, int *rf, int *sz);
+	extern FILE *input, *output;
 
-void condition(item *x, int level);
-void expression(item *x, int level);
-void term(item *x, int level);
-void factor(item *x, int level);
-types resulttype(types a, types b);
-void selector(item *x, int level);
 
-void statement(int level);
-void assignstatement(int i, int lv, int ad, int level);
-void compoundstatement(int level);
-void ifstatement(int level);
-void casestatement(int level);
-void caselabel(casestab casetab[], int *i, item *x);
-void onecase(casestab casetab[], int exittab[], int *i, int *j, item *x, int level);
-void forstatement(int level);
-void callstatement(int i, int level);
-void writestatement(int level);
-void readstatement(int level);
+	void fatal(int n);
+	void error(position p, int n);
+	void error(position p);
 
-void interpret();
+	void test();
+
+	void initsys();
+	void unisys(bool *s, bool *s1, bool *s2);
+	void cpysys(bool *s1, bool *s2);
+
+	void enterblock();
+	void enterreal(double r);
+	void enterarray(int sz);
+	void enter(char token[], objecttyp k, int level);
+	void entervariable(int level);
+	void emit(int fct);
+	void emit(int fct, int b);
+	void emit(int fct, int a, int b);
+	int loc(char id[], int level);
+
+	void parameterlist(int *dx, int level);
+	void getsym();
+
+	void block(bool fsys[], bool isfun, int level);
+	void constdec(bool fsys[], int level);
+	void variabledec(bool fsys[], int level, int *dx);
+	void proceduredec(bool fsys[], int level);
+	void constant(bool fsys[], struct conrec *c);
+	void typ(bool fsys[], types *tp, int *rf, int *sz);
+
+	void condition(item *x, int level);
+	void expression(item *x, int level);
+	void term(item *x, int level);
+	void factor(item *x, int level);
+	types resulttype(types a, types b);
+	void selector(item *x, int level);
+
+	void statement(int level);
+	void assignstatement(int i, int lv, int ad, int level);
+	void compoundstatement(int level);
+	void ifstatement(int level);
+	void casestatement(int level);
+	void caselabel(casestab casetab[], int *i, item *x);
+	void onecase(casestab casetab[], int exittab[], int *i, int *j, item *x, int level);
+	void forstatement(int level);
+	void callstatement(int i, int level);
+	void writestatement(int level);
+	void readstatement(int level);
+
+	void interpret();
 
 
 #endif

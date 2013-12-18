@@ -59,7 +59,7 @@ void getsym(){
 			token[i++] = '.';
 			getch();
 			if(!(ch >= '0' && ch <= '9'))
-				error();
+				error(GETSYM);
 			else{
 				do{
 					if(j < KMAX){

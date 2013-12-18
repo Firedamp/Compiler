@@ -251,11 +251,13 @@ void interpret(){
 //			chrcnt = chrcnt + h1;
 			if(/*chrcnt*/h1 > LINELENG)
 				ps = LNGCHK;
-			do{
-				printf("%c", stab[h2]);
-				h1--;
-				h2++;
-			}while(h1 != 0);
+			if(h1 > 0){
+				do{
+					printf("%c", stab[h2]);
+					h1--;
+					h2++;
+				}while(h1 != 0);
+			}
 			break;
 		case 29:
 			if(ir.y == 1)

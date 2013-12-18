@@ -37,7 +37,7 @@ int main(int argc, char *argv[]){
 		printf("Program Completed\n");
 	}
 	else
-		error(6);//È±ÉÙ¾äºÅ
+		error(MAIN, 6);//È±ÉÙ¾äºÅ
 
 	printf("\n\n== real const table ==\n");
 	printf("No.\tvalue\n");

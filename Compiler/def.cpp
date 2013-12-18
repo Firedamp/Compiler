@@ -33,6 +33,49 @@ char *instr[OMAX] = {
 	"AND",	"MUL",	"DIV",	"MOD",	"MUR",	"DIR",	"RDL",	"WRL"
 };
 
+char *posstr[] = {
+	"main",
+	"fatal",
+	"error",
+	"test",
+	"initsys",
+	"unisys",
+	"cpysys",
+	"enterblock",
+	"enterreal",
+	"enterarray",
+	"enter",
+	"entervariable",
+	"emit",
+	"loc",
+	"parameterlist",
+	"getsym",
+	"block",
+	"constdec",
+	"variabledec",
+	"proceduredec",
+	"constant",
+	"typ",
+	"condition",
+	"expression",
+	"term",
+	"factor",
+	"resulttype",
+	"selector",
+	"statement",
+	"assignstatement",
+	"compoundstatement",
+	"ifstatement",
+	"casestatement",
+	"caselabel",
+	"onecase",
+	"forstatement",
+	"callstatement",
+	"writestatement",
+	"readstatement",
+	"interpret"
+};
+
 symbol sym;
 int ll, cc;				//行数列数
 int lc;					//代码指针

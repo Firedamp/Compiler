@@ -5,11 +5,11 @@ void initsys(){
 		statbegsys[i] = false;
 		blockbegsys[i] = false;
 		facbegsys[i] = false;
+		statfolsys[i] = false;
 	}
 
 	statbegsys[BEGINTK] = true;
 	statbegsys[IFTK] = true;
-	statbegsys[WHILETK] = true;
 	statbegsys[REPTTK] = true;
 	statbegsys[FORTK] = true;
 
@@ -24,6 +24,9 @@ void initsys(){
 	//facbegsys[CHARCON] = true;//我的文法应该是没有这一条的
 	facbegsys[IDEN] = true;
 	facbegsys[LPARENT] = true;
+
+	statfolsys[ENDTK] = true;
+	statfolsys[SEMICH] = true;
 }
 
 void unisys(bool *s, bool *s1, bool *s2){

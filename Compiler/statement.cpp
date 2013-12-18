@@ -12,11 +12,11 @@ void statement(int level){
 				if(tab[i].ref == display[level])
 					assignstatement(i, tab[i].lev+1, 0, level);
 				else
-					error(45);//不在所要赋值的函数名对应的函数中
+					error(STATEMENT, 45);//不在所要赋值的函数名对应的函数中
 			else if(tab[i].obj == PROCDURE)//过程调用语句
 				callstatement(i, level);
 			else
-				error();
+				error(STATEMENT);
 		}
 	}
 	else if(sym == BEGINTK)
@@ -34,7 +34,7 @@ void statement(int level){
 	else if(statfolsys[sym])//空语句，这个处理有瑕疵
 		;
 	else
-		error();
+		error(STATEMENT);
 }
 
 void assignstatement(int i, int lv, int ad, int level){
@@ -70,7 +70,7 @@ void assignstatement(int i, int lv, int ad, int level){
 	if(sym == ASSIGN)
 		getsym();
 	else{
-		error();
+		error(ASSIGNSTATEMENT);
 		if(sym == EQL)
 			getsym();
 	}
@@ -79,7 +79,7 @@ void assignstatement(int i, int lv, int ad, int level){
 		if(x.typ == INTS || x.typ == REALS || x.typ == CHARS)////////////////int,char
 			emit(38);
 		else //if(x.ref != y.ref)
-			error(46);//无法识别的类型,类型不匹配
+			error(ASSIGNSTATEMENT, 46);//无法识别的类型,类型不匹配
 		//else
 			//emit(23, btab[x.ref].vsize);
 	else if(x.typ == REALS && y.typ == INTS){
@@ -87,23 +87,24 @@ void assignstatement(int i, int lv, int ad, int level){
 		emit(38);
 	}
 	else
-		error(46);//类型不匹配
+		error(ASSIGNSTATEMENT, 46);//类型不匹配
 }
 
 void compoundstatement(int level){
 	getsym();
-	statement(level);
+	if(sym != ENDTK)
+		statement(level);
 	while(sym == SEMICH || statbegsys[sym]){
 		if(sym == SEMICH)
 			getsym();
 		else
-			error(14);//丢失分号
+			error(COMPOUNDSTATEMENT, 14);//丢失分号
 		statement(level);
 	}
 	if(sym == ENDTK)
 		getsym();
 	else
-		error(57);//丢失end
+		error(COMPOUNDSTATEMENT, 57);//丢失end
 }
 
 void ifstatement(int level){
@@ -112,13 +113,13 @@ void ifstatement(int level){
 	getsym();
 	condition(&x, level);
 	if(x.typ != INTS)
-		error(17);
+		error(IFSTATEMENT, 17);
 	lc1 = lc;
 	emit(11);//jump
 	if(sym == THENTK)
 		getsym();
 	else
-		error(52);//缺少then
+		error(IFSTATEMENT, 52);//缺少then
 	statement(level);
 	if(sym == ELSETK){
 		getsym();
@@ -142,13 +143,13 @@ void casestatement(int level){
 	j = -1;
 	expression(&x, level);
 	if(x.typ != INTS && x.typ != CHARS)
-		error(23);
+		error(CASESTATEMENT, 23);
 	lc1 = lc;
 	emit(12);
 	if(sym == OFTK)
 		getsym();
 	else
-		error(8);
+		error(CASESTATEMENT, 8);
 	onecase(casetab, exittab, &i, &j, &x, level);
 	while(sym == SEMICH){
 		getsym();
@@ -165,7 +166,7 @@ void casestatement(int level){
 	if(sym == ENDTK)
 		getsym();
 	else
-		error(57);//缺少end
+		error(CASESTATEMENT, 57);//缺少end
 	
 }
 
@@ -176,7 +177,7 @@ void caselabel(casestab casetab[], int *i, item *x){
 
 	constant(nextfsys, &lab);
 	if(lab.tp != x->typ)
-		error(47);
+		error(CASELABEL, 47);
 	else
 		if(*i >= CSMAX-1)
 			fatal(6);///
@@ -188,7 +189,7 @@ void caselabel(casestab casetab[], int *i, item *x){
 			do k++;
 			while(casetab[k].val != lab.i);
 			if(k < *i)
-				error(1);//重定义
+				error(CASELABEL, 1);//重定义
 		}
 }
 
@@ -202,7 +203,7 @@ void onecase(casestab casetab[], int exittab[], int *i, int *j, item *x, int lev
 	if(sym = COLON)
 		getsym();
 	else
-		error(5);//缺少冒号
+		error(ONECASE, 5);//缺少冒号
 	statement(level);
 	(*j)++;
 	exittab[*j] = lc;
@@ -222,27 +223,27 @@ void forstatement(int level){
 		else if(tab[i].obj == VARIABLE){
 			cvt = tab[i].typ;
 			if(!tab[i].normal)
-				error(37);////////////////不行吗
+				error(FORSTATEMENT, 37);////////////////不行吗
 			else
 				emit(0, tab[i].lev, tab[i].adr);
 			if(cvt != INTS && cvt != CHARS)
-				error(18);//不能循环的类型
+				error(FORSTATEMENT, 18);//不能循环的类型
 		}
 		else{
-			error(37);
+			error(FORSTATEMENT, 37);
 			cvt = INTS;
 		}
 	}
 	else
-		error();
+		error(FORSTATEMENT);
 	if(sym == ASSIGN){
 		getsym();
 		expression(&x, level);
 		if(x.typ != cvt)
-			error(19);
+			error(FORSTATEMENT, 19);
 	}
 	else
-		error();
+		error(FORSTATEMENT);
 	f = 14;
 	if(sym == TOTK ||sym == DOWNTOTK){
 		if(sym == DOWNTOTK)
@@ -250,16 +251,16 @@ void forstatement(int level){
 		getsym();
 		expression(&x, level);
 		if(x.typ != cvt)
-			error(19);
+			error(FORSTATEMENT, 19);
 	}
 	else
-		error();
+		error(FORSTATEMENT);
 	lc1 = lc;
 	emit(f);
 	if(sym == DOTK)
 		getsym();
 	else
-		error(54);
+		error(FORSTATEMENT, 54);
 	lc2 = lc;
 	statement(level);
 	emit(f+1, lc2);
@@ -276,7 +277,7 @@ void callstatement(int i, int level){
 		do{
 			getsym();
 			if(cp >= lastp)
-				error(39);
+				error(CALLSTATEMENT, 39);
 			else{
 				cp++;
 				if(tab[i].normal){//值形参
@@ -285,18 +286,18 @@ void callstatement(int i, int level){
 						if(x.typ == INTS && tab[cp].typ == REALS)
 							emit(26, 0);
 						else
-							error(36);//类型不匹配
+							error(CALLSTATEMENT, 36);//类型不匹配
 					}
 				}
 				else{//变量形参
 					if(sym != IDEN)
-						error(2);
+						error(CALLSTATEMENT, 2);
 					else{
 						k = loc(token, level);
 						getsym();
 						if(k != 0){
 							if(tab[k].obj != VARIABLE)
-								error(37);
+								error(CALLSTATEMENT, 37);
 							x.typ = tab[k].typ;
 							x.ref = tab[k].ref;
 							if(tab[k].normal)
@@ -306,7 +307,7 @@ void callstatement(int i, int level){
 							if(sym == LBRACK)
 								selector(&x, level);
 							if(x.typ != tab[cp].typ || x.ref != tab[cp].ref)
-								error(36);
+								error(CALLSTATEMENT, 36);
 						}
 					}
 				}
@@ -316,10 +317,10 @@ void callstatement(int i, int level){
 		if(sym == RPARENT)
 			getsym();
 		else
-			error(4);
+			error(CALLSTATEMENT, 4);
 	}
 	if(cp < lastp)
-		error(39);//参数不够
+		error(CALLSTATEMENT, 39);//参数不够
 	emit(19, btab[tab[i].ref].psize-1);
 	if(tab[i].lev < level)
 		emit(3, tab[i].lev, level);
@@ -333,13 +334,13 @@ void readstatement(int level){
 		do{
 			getsym();
 			if(sym != IDEN)
-				error(2);//缺少标识符
+				error(READSTATEMENT, 2);//缺少标识符
 			else{
 				i = loc(token, level);
 				getsym();
 				if(i != 0){
 					if(tab[i].obj != VARIABLE)
-						error(37);//标识符必须为变量
+						error(READSTATEMENT, 37);//标识符必须为变量
 					else{
 						x.typ = tab[i].typ;    //这里我的文法中没有数组元素,可以整个数组一起读入吗
 						x.ref = tab[i].ref;
@@ -349,29 +350,12 @@ void readstatement(int level){
 							f = 1;
 						emit(f, tab[i].lev, tab[i].adr);
 						
-						/*if(sym == LBRACK){//文法中没有直接读入数组元素，这里可以不要了
-							getsym();								//selector
-							expression(&z, level);
-							if(x.typ != ARRAYS)
-								error(28);//变量不是数组
-							else{
-								if(z.typ != INTS)
-									error(26);//数组下标为整数
-								else
-									emit(20, x.ref);
-								x.typ = atab[x.ref].eltyp;
-								x.ref = 0;
-							}
-							getsym();
-							if(sym == RBRACK)
-								getsym();
-							else
-								error();*/
+						//selector(&x, level);//我的文法中这里没有数组元素
 
 						if(x.typ == INTS || x.typ == REALS || x.typ == CHARS)
 							emit(27, x.typ);
 						else
-							error(41);//不能读取的类型
+							error(READSTATEMENT, 41);//不能读取的类型
 					}
 				}
 			}
@@ -380,9 +364,10 @@ void readstatement(int level){
 		if(sym == RPARENT)
 			getsym();
 		else
-			error(4);//缺少右括号
+			error(READSTATEMENT, 4);//缺少右括号
 	}
-	error();//缺少左括号
+	else
+		error(READSTATEMENT);//缺少左括号
 }
 
 void writestatement(int level){
@@ -399,22 +384,22 @@ void writestatement(int level){
 				getsym();
 				expression(&x, level);
 				if(x.typ != INTS && x.typ != CHARS && x.typ != REALS)
-					error(41);//不能输出的类型
+					error(WRITESTATEMENT, 41);//不能输出的类型
 				emit(29, x.typ);
 			}
 		}
 		else{
 			expression(&x, level);
 			if(x.typ != INTS && x.typ != CHARS && x.typ != REALS)
-				error(41);//不能输出的类型
+				error(WRITESTATEMENT, 41);//不能输出的类型
 			emit(29, x.typ);
 		}
 		if(sym == RPARENT)
 			getsym();
 		else
-			error(4);//缺少右括号
+			error(WRITESTATEMENT, 4);//缺少右括号
 	}
 	else
-		error();//缺少左括号
+		error(WRITESTATEMENT);//缺少左括号
 }
 

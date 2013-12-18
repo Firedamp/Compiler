@@ -1,16 +1,12 @@
-var s, i:integer;
-    ch:char;
+var A: array[10] of integer;
+i,tmp: integer;
+
+function f(i:integer;ii:char):integer;
+begin	
+f:= i+1
+end;
+
 begin
-    read(ch);
-    case ch of
-    '1':
-       begin
-	write(ch)
-	end;
-    '2':
-	write(ch);
-    '3','4':
-	write(ch)
-    end;
-    write("end.")
+read(i);
+write(f(i, 1))
 end.

@@ -67,7 +67,7 @@ void condition(item *x, int level){
 				}
 			}
 			else
-				error(53);//左右两边类型无法比较
+				error(CONDITION, 53);//左右两边类型无法比较
 		}
 		x->typ = INTS;
 	}
@@ -81,7 +81,7 @@ void expression(item *x, int level){
 		getsym();
 		term(x, level);
 		if(x->typ > REALS)/////char不行吗
-			error(33);//错误的类型
+			error(EXPRESSION, 33);//错误的类型
 		else if(sym == MINU)
 			emit(36);
 	}
@@ -194,7 +194,7 @@ void factor(item *x, int level){
 							f = 2;
 					}
 					else
-						error();
+						error(FACTOR);
 					emit(f, tab[i].lev, tab[i].adr);
 				}
 					
@@ -204,7 +204,7 @@ void factor(item *x, int level){
 				callstatement(i, level);
 			}
 			else
-				error();
+				error(FACTOR);
 		}
 		else if(sym == REALCON || sym == INTCON){//////我的文法中应该是没有char的这里
 			if(sym == REALCON){
@@ -225,14 +225,16 @@ void factor(item *x, int level){
 			if(sym == RPARENT)
 				getsym();
 			else
-				error();
+				error(FACTOR);
 		}
+		else
+			error(FACTOR);
 	}
 }
 
 types resulttype(types a, types b){
 	if(a > REALS || b > REALS){
-		error(33);
+		error(RESULTTYPE, 33);
 		return NOTYP;
 	}
 	else if(a == NOTYP || b == NOTYP)
@@ -258,18 +260,18 @@ void selector(item *v, int level){
 	getsym();						//selector
 	expression(&x, level);
 	if(v->typ != ARRAYS)
-	error(28);//变量不是数组
+	error(SELECTOR, 28);//变量不是数组
 	else{
 	if(x.typ != INTS)
-		error(26);//数组下标为整数
+		error(SELECTOR, 26);//数组下标为整数
 	else
 		emit(20, v->ref);
 	v->typ = atab[v->ref].eltyp;
 	v->ref = 0;
 	}
-	getsym();
+	//getsym();
 	if(sym == RBRACK)
 		getsym();
 	else
-		error();
+		error(SELECTOR);
 }
