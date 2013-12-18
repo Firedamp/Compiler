@@ -280,7 +280,7 @@ void callstatement(int i, int level){
 				error(CALLSTATEMENT, 39);
 			else{
 				cp++;
-				if(tab[i].normal){//值形参
+				if(tab[cp].normal){//值形参
 					expression(&x, level);
 					if(x.typ != tab[cp].typ){
 						if(x.typ == INTS && tab[cp].typ == REALS)

@@ -25,7 +25,6 @@ void enterreal(double r){
 		if(c2 >= C2MAX-1)
 			fatal(3);//实数表满了
 		rconst[++c2]= r;
-		c1++;
 	}
 }
 
