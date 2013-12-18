@@ -91,12 +91,20 @@ void interpret(){
 					h3 = 1;
 					ps = CASCHK;
 				}
-				else if(code[h2].y == h1){
+				else if(code[h2].x == h1){
 					h3 = 1;
-					pc = code[h2+1].y;
+					pc = code[h2].y;
 				}
 				else
+<<<<<<< HEAD
+<<<<<<< HEAD
 					h2 += 2;
+=======
+					h2++;
+>>>>>>> 9d8a88ef10a1bd22ac4a88d9c2ead270c339447e
+=======
+					h2++;
+>>>>>>> 9d8a88ef10a1bd22ac4a88d9c2ead270c339447e
 			}while(h3 == 0);
 			break;
 		case 14:
