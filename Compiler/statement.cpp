@@ -156,23 +156,8 @@ void casestatement(int level){
 	}
 	code[lc1].y = lc;
 	for(k = 0; k <= i; k++){
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
 		emit(13, casetab[k].val);
 		emit(13, casetab[k].lc);
-=======
-		emit(13, casetab[k].val, casetab[k].lc);
-		//emit(13, casetab[k].lc);
->>>>>>> 9d8a88ef10a1bd22ac4a88d9c2ead270c339447e
-=======
-		emit(13, casetab[k].val, casetab[k].lc);
-		//emit(13, casetab[k].lc);
->>>>>>> 9d8a88ef10a1bd22ac4a88d9c2ead270c339447e
-=======
-		emit(13, casetab[k].val, casetab[k].lc);
-		//emit(13, casetab[k].lc);
->>>>>>> 9d8a88ef10a1bd22ac4a88d9c2ead270c339447e
 	}
 	emit(10, 0);
 	for(k = 0; k <= j; k++)
