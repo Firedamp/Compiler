@@ -72,7 +72,7 @@ int main(int argc, char *argv[]){
 	fclose(input);
 	fclose(output);
 	printf("是否要解释执行？(Y/N)\n");
-	scanf("%c", &isrun);
+	scanf("%c\n", &isrun);
 	if(isrun == 'Y' || isrun == 'y')
 		interpret();
 	else if(isrun != 'N' && isrun != 'n')

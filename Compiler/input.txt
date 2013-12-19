@@ -1,6 +1,6 @@
 var i:char;
 begin
 read(i);
-i := i + 1;
-write(i);
-end
+i := i+1;
+write(i+1);
+end.

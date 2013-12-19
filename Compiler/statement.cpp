@@ -86,6 +86,10 @@ void assignstatement(int i, int lv, int ad, int level){
 		emit(26, 0);
 		emit(38);
 	}
+	else if(x.typ == CHARS && y.typ == INTS)
+		emit(38);
+	else if(x.typ == INTS && y.typ == CHARS)
+		emit(38);
 	else
 		error(ASSIGNSTATEMENT, 46);//¿‡–Õ≤ª∆•≈‰
 }

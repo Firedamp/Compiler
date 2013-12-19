@@ -84,10 +84,12 @@ void expression(item *x, int level){
 		op = sym;
 		getsym();
 		term(x, level);
-		if(x->typ > REALS)/////char不行吗
+		if(x->typ > CHARS)/////char不行吗
 			error(EXPRESSION, 33);//错误的类型
 		else if(sym == MINU)
 			emit(36);
+		if(x->typ == CHARS)
+			x->typ = INTS;
 	}
 	else
 		term(x, level);
@@ -243,14 +245,14 @@ void factor(item *x, int level){
 }
 
 types resulttype(types a, types b){
-	if(a > REALS || b > REALS){
+	if(a > CHARS || b > CHARS){
 		error(RESULTTYPE, 33);
 		return NOTYP;
 	}
 	else if(a == NOTYP || b == NOTYP)
 		return NOTYP;
-	else if(a == INTS){
-		if(b == INTS)
+	else if(a == INTS || a == CHARS){
+		if(b == INTS || CHARS)
 			return INTS;
 		else{
 			emit(26, 1);
