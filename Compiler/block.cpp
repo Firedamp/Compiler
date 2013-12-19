@@ -1,18 +1,15 @@
 #include"head.h"
 
-void block(bool fsys[], bool isfun, int level){    //nextfsys
+void block(bool isfun, int level){    //nextfsys
 	int dx;		//数据相对位置
 	int prt;	//符号表指针
 	int prb;	//btab指针
 	int x;
 
-	bool nextfsys[NSY];
-
 	dx = 5;
 	prt = t;
 	if(level >= LMAX)
 		fatal(5);	
-	test();
 	enterblock();
 	prb = b;
 	display[level] = b;
@@ -21,7 +18,7 @@ void block(bool fsys[], bool isfun, int level){    //nextfsys
 	if(sym == LPARENT && level > 0)
 		parameterlist(&dx, level);		//形式参数表
 	else if(sym != LPARENT && level >0)///////我的文法中必须有括号吧
-		error(BLOCK);					/////////
+		error(BLOCK, 9);					/////////
 	btab[prb].lastpar = t;
 	btab[prb].psize = dx;
 	if(isfun){
@@ -39,24 +36,30 @@ void block(bool fsys[], bool isfun, int level){    //nextfsys
 				tab[prt].typ = REALS;
 				getsym();
 			}
-			else
+			else{
 				error(BLOCK, 15);//无法识别的类型
+				getsym();
+			}
 		}
-		else
+		else{
 			error(BLOCK, 5);//缺少冒号
+			getsym();
+		}
 	}
 	if(sym == SEMICH && level > 0)
 		getsym();
-	else if(level != 0)		////////
+	else if(level != 0){	////////
 		error(BLOCK, 14);//缺少分号
+		getsym();
+	}
 	//do{
 	if(sym == CONSTTK)
-		constdec(fsys, level);
+		constdec(level);
 	if(sym == VARTK)
-		variabledec(fsys, level, &dx);
+		variabledec(level, &dx);
 	btab[prb].vsize = dx;
 	while(sym == PROCETK || sym == FUNCTK)
-		proceduredec(fsys, level);
+		proceduredec(level);
 	//test();
 	//}while(sym in statbegsys);
 	tab[prt].adr = lc;
@@ -65,7 +68,7 @@ void block(bool fsys[], bool isfun, int level){    //nextfsys
 	if(sym == BEGINTK)
 		compoundstatement(level);
 	else
-		error(BLOCK, 14);//缺少begin
+		error(BLOCK, 56);//缺少begin
 	//test();
 	printf("Block Completed\n");
 }
@@ -133,43 +136,42 @@ void parameterlist(int *dx, int level){ //形式参数表
 			else if(sym == RPARENT)
 				break;
 			else{
-				error(PARAMETERLIST, 14);
+				error(PARAMETERLIST, 59);
 //				if(sym == COMMA)
 //					getsym();
 			}
-			test();
+			//test();
 //		}
+	
 	}
 	if(sym == RPARENT){
 		getsym();
-		test();
+		//test();
 	}
-	else
+	else{
 		error(PARAMETERLIST, 4);
+		getsym();
+	}
 }
 
-void constdec(bool fsys[], int level){     //fsys
+void constdec(int level){     //fsys
 	struct conrec c;
-	bool nextfsys[NSY];
 
 	getsym();
 	test();
 	if(sym != IDEN)///////
-		error(CONSTDEC);
+		error(CONSTDEC, 2);
 	while(sym == IDEN){
 		enter(token, CONSTANT, level);
 		getsym();
 		if(sym == EQL)
 			getsym();
-		else
+		else{
 			error(CONSTANTT, 16);//缺少等号
+			getsym();
+		}
 		
-		cpysys(nextfsys, fsys);
-		nextfsys[SEMICH] = true;
-		nextfsys[COMMA] = true;
-		nextfsys[IDEN] = true;
-
-		constant(nextfsys, &c);
+		constant(&c);
 		tab[t].typ = c.tp;
 		tab[t].ref = 0;
 		tab[t].normal = true;
@@ -182,7 +184,7 @@ void constdec(bool fsys[], int level){     //fsys
 		if(sym == COMMA){
 			getsym();
 			if(sym != IDEN)
-				error(CONSTANTT);
+				error(CONSTANTT, 2);
 		}
 		if(sym == SEMICH){
 			getsym();
@@ -192,10 +194,9 @@ void constdec(bool fsys[], int level){     //fsys
 		
 }
 
-void variabledec(bool fsys[], int level, int *dx){
+void variabledec(int level, int *dx){
 	types tp;
 	int t0, t1, rf, sz;
-	bool nextfsys[NSY];
 
 	getsym();
 	if(sym != IDEN)
@@ -209,16 +210,14 @@ void variabledec(bool fsys[], int level, int *dx){
 		}
 		if(sym == COLON)
 			getsym();
-		else
+		else{
 			error(VARIABLEDEC, 5);//缺少冒号
+			getsym();
+		}
 		t1 = t;
 
-		cpysys(nextfsys, fsys);
-		nextfsys[SEMICH] = true;
-		nextfsys[COMMA] = true;
-		nextfsys[IDEN] = true;
 
-		typ(nextfsys, &tp, &rf, &sz);
+		typ(&tp, &rf, &sz);
 
 		while(t0 < t1){
 			t0++;
@@ -236,16 +235,15 @@ void variabledec(bool fsys[], int level, int *dx){
 	}
 }
 
-void proceduredec(bool fsys[], int level){
+void proceduredec(int level){
 	bool isfun;
-	bool nextfsys[NSY];
 
 	isfun = (sym == FUNCTK);
 	getsym();
 	if(sym != IDEN){
-		error(PROCEDUREDEC);
+		error(PROCEDUREDEC, 2);
 		strcpy(token, "_unknow ");
-		token[7] = uk + '0';
+		token[7] = uk++ + '0';
 	}
 	if(isfun)
 		enter(token, FUNCTION, level);
@@ -254,18 +252,18 @@ void proceduredec(bool fsys[], int level){
 	tab[t].normal = true;
 	getsym();
 
-	cpysys(nextfsys, fsys);
-	nextfsys[SEMICH] = true;
-	block(nextfsys, isfun, level+1);
+	block(isfun, level+1);
 
 	if(sym == SEMICH)
 		getsym();
-	else
-		error(PROCEDUREDEC);
+	else{
+		error(PROCEDUREDEC, 14);
+		getsym();
+	}
 	emit(32+isfun);
 }
 
-void typ(bool fsys[], types *tp, int *rf, int *sz){
+void typ(types *tp, int *rf, int *sz){
 	*tp = NOTYP;
 	*rf = 0;
 	*sz = 1;
@@ -287,15 +285,17 @@ void typ(bool fsys[], types *tp, int *rf, int *sz){
 		*tp = ARRAYS;
 		if(sym == LBRACK)
 			getsym();
-		else
+		else{
 			error(TYP, 11);//缺少[
+			getsym();
+		}
 		if(sym == INTCON){
 			if(inum > ASIZE){
-				error(TYP);
+				error(TYP, 21);
 				*sz = ASIZE;
 			}
 			else if(inum == 0){
-				error(TYP);
+				error(TYP, 27);
 				*sz = ASIZE;
 			}
 			else
@@ -305,15 +305,17 @@ void typ(bool fsys[], types *tp, int *rf, int *sz){
 			getsym();
 		}
 		else
-			error(TYP);
+			error(TYP, 26);
 		if(sym == RBRACK)
 			getsym();
-		else
-			error(TYP);
+		else{
+			error(TYP, 12);
+			getsym();
+		}
 		if(sym == OFTK)
 			getsym();
 		else
-			error(TYP);
+			error(TYP, 8);
 		if(sym == INTTK){
 			atab[*rf].eltyp = INTS;
 			getsym();
@@ -327,14 +329,14 @@ void typ(bool fsys[], types *tp, int *rf, int *sz){
 			getsym();
 		}
 		else
-			error(TYP);
+			error(TYP, 15);
 	}
 	else
-		error(TYP);
+		error(TYP, 15);
 
 }
 
-void constant(bool fsys[], struct conrec *c){
+void constant(struct conrec *c){
 	int x,sign;
 	c->tp = NOTYP;
 	c->i = 0;
@@ -364,7 +366,7 @@ void constant(bool fsys[], struct conrec *c){
 		}
 		else
 			error(CONSTANTT, 50);//不能识别的常量///////////////skip
-		test();
+		//test();
 	}
 }
 

@@ -29,6 +29,7 @@ void condition(item *x, int level){
 				emit(46);
 				break;
 			default:
+				error(CONDITION, 60);
 				break;
 			}
 		}
@@ -62,15 +63,18 @@ void condition(item *x, int level){
 					emit(40);
 					break;
 				default:
+					error(CONDITION, 60);
 					break;
 				
 				}
 			}
 			else
-				error(CONDITION, 53);//左右两边类型无法比较
+				error(CONDITION, 53);
 		}
 		x->typ = INTS;
 	}
+	else
+		error(CONDITION, 60);
 }
 
 void expression(item *x, int level){
@@ -106,6 +110,8 @@ void expression(item *x, int level){
 			else
 				emit(55);
 		}
+		else
+			error(EXPRESSION, 33);
 	}
 }
 
@@ -125,6 +131,8 @@ void term(item *x, int level){
 				emit(57);
 			else if(x->typ == REALS)
 				emit(60);
+			else
+				error(TERM, 33);
 		}
 		else if(op == DIV){
 			x->typ = resulttype(x->typ, y.typ);
@@ -134,6 +142,8 @@ void term(item *x, int level){
 				emit(58);
 			else if(x->typ == REALS)
 				emit(61);
+			else
+				error(TERM, 33);
 		}
 	}
 }
@@ -194,7 +204,7 @@ void factor(item *x, int level){
 							f = 2;
 					}
 					else
-						error(FACTOR);
+						error(FACTOR, 33);
 					emit(f, tab[i].lev, tab[i].adr);
 				}
 					
@@ -204,7 +214,7 @@ void factor(item *x, int level){
 				callstatement(i, level);
 			}
 			else
-				error(FACTOR);
+				error(FACTOR, 33);
 		}
 		else if(sym == REALCON || sym == INTCON){//////我的文法中应该是没有char的这里
 			if(sym == REALCON){
@@ -225,10 +235,10 @@ void factor(item *x, int level){
 			if(sym == RPARENT)
 				getsym();
 			else
-				error(FACTOR);
+				error(FACTOR, 4);
 		}
 		else
-			error(FACTOR);
+			error(FACTOR, 33);
 	}
 }
 
@@ -273,5 +283,5 @@ void selector(item *v, int level){
 	if(sym == RBRACK)
 		getsym();
 	else
-		error(SELECTOR);
+		error(SELECTOR, 12);
 }

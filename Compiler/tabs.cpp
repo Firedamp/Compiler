@@ -2,7 +2,7 @@
 
 void enterblock(){
 	if(b >= BMAX-1)
-		fatal(2);//btab满了
+		fatal(61);//btab满了
 	b++;
 	btab[b].last = 0;
 	btab[b].lastpar = 0;
@@ -23,12 +23,14 @@ void enterreal(double r){
 			flag = true;
 	if(!flag){
 		if(c2 >= C2MAX-1)
-			fatal(3);//实数表满了
+			fatal(62);//实数表满了
 		rconst[++c2]= r;
 	}
 }
 
 void enterarray(int sz){
+	if(a >= AMAX - 1)
+		fatal(63);
 	a++;
 	atab[a].size = sz;
 }
@@ -38,7 +40,7 @@ void enterarray(int sz){
 void enter(char token[], objecttyp k, int level){
 	int j, l;
 	if(t >= TMAX-1)
-		fatal(1);
+		fatal(64);
 	strcpy(tab[0].name, token);
 	j = btab[display[level]].last;
 	l = j;
@@ -65,19 +67,22 @@ void entervariable(int level){
 		enter(token, VARIABLE, level);
 		getsym();
 	}
-	else
+	else{
 		error(ENTERVARIABLE, 2);//缺少标识符
+		strcpy(token, "_unknow");
+		token[7] = uk++ + '0';
+	}
 }
 
 void emit(int fct){
 	if(lc >= CMAX)
-		fatal(6);//汇编指令表满了
+		fatal(65);//汇编指令表满了
 	code[lc++].f = fct;
 }
 
 void emit(int fct, int b){
 	if(lc >= CMAX)
-		fatal(6);//汇编指令表满了
+		fatal(65);//汇编指令表满了
 	else{
 		code[lc].f = fct;
 		code[lc].y = b;
@@ -87,7 +92,7 @@ void emit(int fct, int b){
 
 void emit(int fct, int a, int b){
 	if(lc >= CMAX)
-		fatal(6);//汇编指令表满了
+		fatal(65);//汇编指令表满了
 	else{
 		code[lc].f = fct;
 		code[lc].x = a;

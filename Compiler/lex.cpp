@@ -22,7 +22,7 @@ void getsym(){
 			if(i < ALNG)
 				token[i++] = ch;
 			else if(i == ALNG && !flag){
-				printf("line:%d, column:%d : Identifier Too Long\n", ll, cc-i);
+				error(GETSYM, 20);
 				flag++;
 			}
 			getch();
@@ -44,7 +44,7 @@ void getsym(){
 				i++;
 			}
 			else if(i == KMAX && !flag){
-				printf("line:%d, column:%d : Number Too Long\n", ll, cc);
+				error(GETSYM, 21);
 				flag++;
 			}
 			getch();
@@ -59,7 +59,7 @@ void getsym(){
 			token[i++] = '.';
 			getch();
 			if(!(ch >= '0' && ch <= '9'))
-				error(GETSYM);
+				error(GETSYM, 7);
 			else{
 				do{
 					if(j < KMAX){
@@ -68,7 +68,7 @@ void getsym(){
 						j++;
 					}
 					else if(j == KMAX && !flag){
-						printf("line:%d, column:%d : Number Too Long\n", ll, cc);
+						error(GETSYM, 21);
 						flag++;
 					}
 					getch();
@@ -83,7 +83,7 @@ void getsym(){
 		token[0] = '\'';
 		getch();
 		if(!((ch >= 'a' && ch <= 'z') || (ch >= 'A' && ch <= 'Z')) && !(ch >= '0' && ch <= '9')){
-			printf("line:%d, column:%d : Char should be a letter or a digit\n", ll, cc);
+			error(GETSYM, 25);
 			sym = NUL;
 			getch();
 			getch();
@@ -93,7 +93,7 @@ void getsym(){
 			inum = ch;
 			getch();
 			if(ch != '\'')
-				printf("line:%d, column:%d : There should be a quotation mark\n", ll, cc);
+				error(GETSYM, 10);
 			token[2] = '\'';
 			token[3] = '\0';
 			sym = CHARCON;
@@ -108,8 +108,8 @@ void getsym(){
 				if(i++) stab[sx++] = ch;
 				//token[i++] = ch;
 			}
-			else if(i == ALNG && !flag){
-				printf("line:%d, column:%d : String Too Long\n", ll, cc-i);
+			else if(i == SLNG && !flag){
+				error(GETSYM, 3);
 				flag++;
 			}
 			getch();
@@ -226,12 +226,10 @@ void getsym(){
 			getch();
 			break;
 		case EOF :
-			printf("Lexical Analysis Completed.\n");
-			fclose(input);
-			fclose(output);
-			exit(0);
+			fatal(24);
+			break;
 		default :
-			printf("line:%d, column:%d : Unknown Character\n", ll, cc);
+			error(GETSYM, 6);
 			strcpy(token, "");
 			sym = NUL;
 			getch();

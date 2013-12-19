@@ -16,7 +16,7 @@ void statement(int level){
 			else if(tab[i].obj == PROCDURE)//过程调用语句
 				callstatement(i, level);
 			else
-				error(STATEMENT);
+				error(STATEMENT, 31);
 		}
 	}
 	else if(sym == BEGINTK)
@@ -34,7 +34,7 @@ void statement(int level){
 	else if(statfolsys[sym])//空语句，这个处理有瑕疵
 		;
 	else
-		error(STATEMENT);
+		error(STATEMENT, 31);
 }
 
 void assignstatement(int i, int lv, int ad, int level){
@@ -70,7 +70,7 @@ void assignstatement(int i, int lv, int ad, int level){
 	if(sym == ASSIGN)
 		getsym();
 	else{
-		error(ASSIGNSTATEMENT);
+		error(ASSIGNSTATEMENT, 51);
 		if(sym == EQL)
 			getsym();
 	}
@@ -113,7 +113,7 @@ void ifstatement(int level){
 	getsym();
 	condition(&x, level);
 	if(x.typ != INTS)
-		error(IFSTATEMENT, 17);
+		error(IFSTATEMENT, 33);
 	lc1 = lc;
 	emit(11);//jump
 	if(sym == THENTK)
@@ -173,11 +173,10 @@ void casestatement(int level){
 void caselabel(casestab casetab[], int *i, item *x){
 	conrec lab;
 	int k;
-	bool nextfsys[NSY];
 
-	constant(nextfsys, &lab);
+	constant(&lab);
 	if(lab.tp != x->typ)
-		error(CASELABEL, 47);
+		error(CASELABEL, 33);//
 	else
 		if(*i >= CSMAX-1)
 			fatal(6);///
@@ -219,23 +218,23 @@ void forstatement(int level){
 		i = loc(token, level);
 		getsym();
 		if(i == 0)
-			cvt = INTS;///////为什么
+			cvt = INTS;
 		else if(tab[i].obj == VARIABLE){
 			cvt = tab[i].typ;
 			if(!tab[i].normal)
-				error(FORSTATEMENT, 37);////////////////不行吗
+				error(FORSTATEMENT, 37);////////////老师说可以报错   //emit(1, tab[i].lev, tab[i].adr);
 			else
 				emit(0, tab[i].lev, tab[i].adr);
 			if(cvt != INTS && cvt != CHARS)
 				error(FORSTATEMENT, 18);//不能循环的类型
 		}
 		else{
-			error(FORSTATEMENT, 37);
+			error(FORSTATEMENT, 18);
 			cvt = INTS;
 		}
 	}
 	else
-		error(FORSTATEMENT);
+		error(FORSTATEMENT, 2);
 	if(sym == ASSIGN){
 		getsym();
 		expression(&x, level);
@@ -243,7 +242,7 @@ void forstatement(int level){
 			error(FORSTATEMENT, 19);
 	}
 	else
-		error(FORSTATEMENT);
+		error(FORSTATEMENT, 51);
 	f = 14;
 	if(sym == TOTK ||sym == DOWNTOTK){
 		if(sym == DOWNTOTK)
@@ -253,8 +252,10 @@ void forstatement(int level){
 		if(x.typ != cvt)
 			error(FORSTATEMENT, 19);
 	}
-	else
-		error(FORSTATEMENT);
+	else{
+		error(FORSTATEMENT, 55);
+		getsym();
+	}
 	lc1 = lc;
 	emit(f);
 	if(sym == DOTK)
@@ -297,7 +298,7 @@ void callstatement(int i, int level){
 						getsym();
 						if(k != 0){
 							if(tab[k].obj != VARIABLE)
-								error(CALLSTATEMENT, 37);
+								error(CALLSTATEMENT, 38);
 							x.typ = tab[k].typ;
 							x.ref = tab[k].ref;
 							if(tab[k].normal)
@@ -316,8 +317,10 @@ void callstatement(int i, int level){
 		}while(sym == COMMA);
 		if(sym == RPARENT)
 			getsym();
-		else
+		else{
 			error(CALLSTATEMENT, 4);
+			getsym();
+		}
 	}
 	if(cp < lastp)
 		error(CALLSTATEMENT, 39);//参数不够
@@ -340,7 +343,7 @@ void readstatement(int level){
 				getsym();
 				if(i != 0){
 					if(tab[i].obj != VARIABLE)
-						error(READSTATEMENT, 37);//标识符必须为变量
+						error(READSTATEMENT, 38);//标识符必须为变量
 					else{
 						x.typ = tab[i].typ;    //这里我的文法中没有数组元素,可以整个数组一起读入吗
 						x.ref = tab[i].ref;
@@ -363,11 +366,13 @@ void readstatement(int level){
 		}while(sym == COMMA);
 		if(sym == RPARENT)
 			getsym();
-		else
+		else{
 			error(READSTATEMENT, 4);//缺少右括号
+			getsym();
+		}
 	}
 	else
-		error(READSTATEMENT);//缺少左括号
+		error(READSTATEMENT, 9);//缺少左括号
 }
 
 void writestatement(int level){
@@ -396,10 +401,12 @@ void writestatement(int level){
 		}
 		if(sym == RPARENT)
 			getsym();
-		else
+		else{
 			error(WRITESTATEMENT, 4);//缺少右括号
+			getsym();
+		}
 	}
 	else
-		error(WRITESTATEMENT);//缺少左括号
+		error(WRITESTATEMENT, 9);//缺少左括号
 }
 

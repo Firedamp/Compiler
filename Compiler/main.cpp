@@ -1,7 +1,7 @@
 #include"head.h"
 
 int main(int argc, char *argv[]){
-	bool nextfsys[NSY];
+	char isrun;
 
 	ll = 1;
 	cc = 1;
@@ -29,15 +29,14 @@ int main(int argc, char *argv[]){
 	output = fopen("output.txt", "w");
 	getsym();
 
-	unisys(nextfsys, blockbegsys, statbegsys);
-	block(nextfsys, false, 0);
+	block(false, 0);
 
 	if(sym == PERIOD){
 		emit(31);
 		printf("Program Completed\n");
 	}
 	else
-		error(MAIN, 6);//缺少句号
+		error(MAIN, 22);//缺少句号
 
 	printf("\n\n== real const table ==\n");
 	printf("No.\tvalue\n");
@@ -72,6 +71,10 @@ int main(int argc, char *argv[]){
 
 	fclose(input);
 	fclose(output);
-
-	interpret();
+	printf("是否要解释执行？(Y/N)\n");
+	scanf("%c", &isrun);
+	if(isrun == 'Y' || isrun == 'y')
+		interpret();
+	else if(isrun != 'N' && isrun != 'n')
+		printf("输入错误\n");
 }

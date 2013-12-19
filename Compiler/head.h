@@ -54,6 +54,7 @@ void multi_statement();*/
 #define		NKW		24//27		//关键字个数
 #define		NSY		51		//单词类型数
 #define		ALNG	10		//标识符最大长度
+#define		SLNG	100		//字符串最大长度
 #define		LLNG	121		
 #define		KMAX	15		//数字最大位数
 #define		TMAX	100		//符号表长度
@@ -100,46 +101,13 @@ enum types{ NOTYP, INTS, REALS, CHARS, ARRAYS};
 enum pss{ RUN, FIN, CASCHK, DIVCHK, INXCHK, STKCHK, LINCHK, LNGCHK, REDCHK};
 
 enum position{
-	MAIN,
-	FATAL,
-	ERROR,
-	TEST,
-	INITSYS,
-	UNISYS,
-	CPYSYS,
-	ENTERBLOCK,
-	ENTERREAL,
-	ENTERARRAY,
-	ENTER,
-	ENTERVARIABLE,
-	EMIT,
-	LOC,
-	PARAMETERLIST,
-	GETSYM,
-	BLOCK,
-	CONSTDEC,
-	VARIABLEDEC,
-	PROCEDUREDEC,
-	CONSTANTT,
-	TYP,
-	CONDITION,
-	EXPRESSION,
-	TERM,
-	FACTOR,
-	RESULTTYPE,
-	SELECTOR,
-	STATEMENT,
-	ASSIGNSTATEMENT,
-	COMPOUNDSTATEMENT,
-	IFSTATEMENT,
-	CASESTATEMENT,
-	CASELABEL,
-	ONECASE,
-	FORSTATEMENT,
-	CALLSTATEMENT,
-	WRITESTATEMENT,
-	READSTATEMENT,
-	INTERPRET
+	MAIN,			FATAL,			ERROR,			TEST,			INITSYS,		UNISYS,
+	CPYSYS,			ENTERBLOCK,		ENTERREAL,		ENTERARRAY,		ENTER,			ENTERVARIABLE,
+	EMIT,			LOC,			PARAMETERLIST,	GETSYM,			BLOCK,			CONSTDEC,
+	VARIABLEDEC,	PROCEDUREDEC,	CONSTANTT,		TYP,			CONDITION,		EXPRESSION,
+	TERM,			FACTOR,			RESULTTYPE,		SELECTOR,		STATEMENT,		ASSIGNSTATEMENT,
+	COMPOUNDSTATEMENT,				IFSTATEMENT,	CASESTATEMENT,	CASELABEL,		ONECASE,
+	FORSTATEMENT,	CALLSTATEMENT,	WRITESTATEMENT,	READSTATEMENT,	INTERPRET
 };
 
 	struct stack{
@@ -213,6 +181,7 @@ enum position{
 	extern char *boolstr[];
 	extern char *instr[];
 	extern char *posstr[];
+	extern char *errmsg[];
 
 	extern int display[LMAX];	//都没有初始化
 	extern double rconst[C2MAX];
@@ -232,7 +201,6 @@ enum position{
 
 	void fatal(int n);
 	void error(position p, int n);
-	void error(position p);
 
 	void test();
 
@@ -253,12 +221,12 @@ enum position{
 	void parameterlist(int *dx, int level);
 	void getsym();
 
-	void block(bool fsys[], bool isfun, int level);
-	void constdec(bool fsys[], int level);
-	void variabledec(bool fsys[], int level, int *dx);
-	void proceduredec(bool fsys[], int level);
-	void constant(bool fsys[], struct conrec *c);
-	void typ(bool fsys[], types *tp, int *rf, int *sz);
+	void block(bool isfun, int level);
+	void constdec(int level);
+	void variabledec(int level, int *dx);
+	void proceduredec(int level);
+	void constant(struct conrec *c);
+	void typ(types *tp, int *rf, int *sz);
 
 	void condition(item *x, int level);
 	void expression(item *x, int level);
